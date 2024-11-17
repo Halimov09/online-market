@@ -12,7 +12,7 @@ var aDotNetClient = new ADotNetClient();
 
 var githubPipeline = new GithubPipeline
 {
-    Name = "Sheenam Build Pipeline",
+    Name = "Online-Market Build Pipeline",
 
     OnEvents = new Events
     {
