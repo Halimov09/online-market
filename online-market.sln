@@ -5,7 +5,9 @@ VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Market.Api", "Market.Api\Market.Api.csproj", "{C49C1FDB-64B2-4D72-B9AF-C76239C50326}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Market.Api.TestsUnit", "Market.Api.TestsUnit\Market.Api.TestsUnit.csproj", "{7B98CF2A-D551-4CD6-B300-948A498E5FE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Market.Api.TestsUnit", "Market.Api.TestsUnit\Market.Api.TestsUnit.csproj", "{7B98CF2A-D551-4CD6-B300-948A498E5FE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Market.Infrastructure.Build", "Market.Infrastructure.Build\Market.Infrastructure.Build.csproj", "{225FCCE7-0434-483B-A899-BC51E9B0EAB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{7B98CF2A-D551-4CD6-B300-948A498E5FE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B98CF2A-D551-4CD6-B300-948A498E5FE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B98CF2A-D551-4CD6-B300-948A498E5FE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{225FCCE7-0434-483B-A899-BC51E9B0EAB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{225FCCE7-0434-483B-A899-BC51E9B0EAB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{225FCCE7-0434-483B-A899-BC51E9B0EAB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{225FCCE7-0434-483B-A899-BC51E9B0EAB9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
