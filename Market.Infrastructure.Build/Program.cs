@@ -82,3 +82,4 @@ if (!Directory.Exists(directoryPath))
 }
 
 aDotNetClient.SerializeAndWriteToFile(githubPipeline, path: buildScriptPath);
+
