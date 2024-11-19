@@ -12,4 +12,14 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="7.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Foundation\Cart\" />
+    <Folder Include="Models\Foundation\CartItem\" />
+    <Folder Include="Models\Foundation\Review\" />
+    <Folder Include="Models\Foundation\Payment\" />
+    <Folder Include="Models\Foundation\OrderItem\" />
+    <Folder Include="Models\Foundation\Order\" />
+    <Folder Include="Models\Foundation\Category\" />
+  </ItemGroup>
+
 </Project>
