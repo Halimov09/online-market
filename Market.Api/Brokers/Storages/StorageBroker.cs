@@ -8,13 +8,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Market.Api.Brokers.Storages
 {
-    public class StorageBroker : EFxceptionsContext
+    public partial class StorageBroker : EFxceptionsContext
     {
         private readonly IConfiguration configuration;
 
         public StorageBroker(IConfiguration configuration)
         {
             this.configuration = configuration;
+            this.Database.Migrate();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
