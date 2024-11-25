@@ -3,12 +3,17 @@
 // Free To Use Comfort and Peace
 //==================================================
 
+using Market.Api.Brokers.Storages;
+
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Services.AddDbContext<StorageBroker>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 var app = builder.Build();
 
