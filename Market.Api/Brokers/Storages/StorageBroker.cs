@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Market.Api.Brokers.Storages
 {
-    public partial class StorageBroker : EFxceptionsContext
+    public partial class StorageBroker : EFxceptionsContext, IstorageBroker
     {
         private readonly IConfiguration configuration;
 
