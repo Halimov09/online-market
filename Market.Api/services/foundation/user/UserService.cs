@@ -15,7 +15,7 @@ namespace Market.Api.services.foundation.user
         public UserService(IstorageBroker storageBroker) =>
             this.storageBroker = storageBroker;
 
-        public ValueTask<Users> AddUsersAsync() => 
-            throw new NotImplementedException();
+        public ValueTask<Users> AddUsersAsync(Users users) => 
+            this.storageBroker.InsertUsersAsync(users);
     }
 }
