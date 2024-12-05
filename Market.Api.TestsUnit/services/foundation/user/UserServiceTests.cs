@@ -3,20 +3,20 @@
 // Free To Use Comfort and Peace
 //==================================================
 
-using FluentAssertions;
 using Market.Api.Brokers.Storages;
 using Market.Api.Models.Foundation.Users;
 using Market.Api.services.foundation.user;
 using Moq;
+using Tynamix.ObjectFiller;
 
 namespace Market.Api.TestsUnit.services.foundation.user
 {
-    public class UserServiceTests
+    public partial class UserServiceTests
     {
         private readonly Mock<IstorageBroker> storageBrokerMock;
         private readonly IuserService userService;
 
-        public UserServiceTests() 
+        public UserServiceTests()
         {
             this.storageBrokerMock = new Mock<IstorageBroker>();
 
@@ -24,29 +24,20 @@ namespace Market.Api.TestsUnit.services.foundation.user
                 new UserService(storageBroker: this.storageBrokerMock.Object);
         }
 
-        [Fact]
-        public async Task ShouldAddUserAsync()
+        private static Users CreateRandomUser() =>
+             CreateUserFiller(date: GetRandomDateTimeOffset()).Create();
+
+        private static DateTimeOffset GetRandomDateTimeOffset() =>
+                new DateTimeRange(earliestDate: new DateTime()).GetValue();
+
+        private static Filler<Users> CreateUserFiller(DateTimeOffset date)
         {
-            //arrange
-            Users randomUser = new Users()
-            {
-                Id = Guid.NewGuid(),
-                Name = "Test",
-                Email = "ohef@gmail.com",
-                Password = "password",
-                Role = Role.Admin,
-                CreateDate = DateTime.Now,
-            };
+            var filler = new Filler<Users>();
 
-            this.storageBrokerMock.Setup(broker =>
-            broker.InsertUsersAsync(randomUser))
-                .ReturnsAsync(randomUser);
+            filler.Setup().
+                OnType<DateTimeOffset>().Use(date);
 
-            //act 
-            Users actual = await this.userService.AddUsersAsync(randomUser);
-
-            //assert
-            actual.Should().BeEquivalentTo(randomUser);
+            return filler;
         }
     }
 }
