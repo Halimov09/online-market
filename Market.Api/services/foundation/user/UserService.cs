@@ -15,7 +15,7 @@ namespace Market.Api.services.foundation.user
         public UserService(IstorageBroker storageBroker) =>
             this.storageBroker = storageBroker;
 
-        public ValueTask<Users> AddUsersAsync(Users users) => 
-            this.storageBroker.InsertUsersAsync(users);
+        public async ValueTask<Users> AddUsersAsync(Users users) => 
+            await this.storageBroker.InsertUsersAsync(users);
     }
 }
