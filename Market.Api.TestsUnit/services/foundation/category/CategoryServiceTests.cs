@@ -20,7 +20,7 @@ namespace Market.Api.TestsUnit.services.foundation.category
         {
             this.storageBrokerMock = new Mock<IstorageBroker>();
 
-            this.categoryService = 
+            this.categoryService =
                 new CategoryService(storageBroker: this.storageBrokerMock.Object);
         }
 
