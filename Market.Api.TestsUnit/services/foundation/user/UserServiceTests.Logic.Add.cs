@@ -35,6 +35,7 @@ namespace Market.Api.TestsUnit.services.foundation.user
                 broker.InsertUsersAsync(inputUser), Times.Once);
 
             this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
         }
     }
 }

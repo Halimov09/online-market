@@ -3,6 +3,7 @@
 // Free To Use Comfort and Peace
 //==================================================
 
+using Market.Api.Brokers.Loggings;
 using Market.Api.Brokers.Storages;
 using Market.Api.Models.Foundation.Users;
 using Market.Api.services.foundation.user;
@@ -14,14 +15,17 @@ namespace Market.Api.TestsUnit.services.foundation.user
     public partial class UserServiceTests
     {
         private readonly Mock<IstorageBroker> storageBrokerMock;
+        private readonly Mock<ILoggingBroker> loggingBrokerMock;
         private readonly IuserService userService;
 
         public UserServiceTests()
         {
             this.storageBrokerMock = new Mock<IstorageBroker>();
+            this.loggingBrokerMock = new Mock<ILoggingBroker>();
 
-            this.userService =
-                new UserService(storageBroker: this.storageBrokerMock.Object);
+            this.userService = new UserService(
+               storageBroker: this.storageBrokerMock.Object,
+               loggingBroker: this.loggingBrokerMock.Object);
         }
 
         private static Users CreateRandomUser() =>
