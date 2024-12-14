@@ -15,10 +15,10 @@ namespace Market.Api.TestsUnit.services.foundation.user
         {
             //given
             Users nullUser = null;
-            var nullGuestException = new NullUserException();
+            var nullUserException = new NullUserException();
 
             var expectedUserValidationException = 
-                new UserValidationExcption(nullGuestException);
+                new UserValidationExcption(nullUserException);
 
             //when
             ValueTask<Users> addUserTask = 
