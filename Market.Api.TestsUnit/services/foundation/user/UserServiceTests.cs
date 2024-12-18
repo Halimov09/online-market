@@ -8,7 +8,9 @@ using Market.Api.Brokers.Storages;
 using Market.Api.Models.Foundation.Users;
 using Market.Api.services.foundation.user;
 using Moq;
+using System.Linq.Expressions;
 using Tynamix.ObjectFiller;
+using Xeptions;
 
 namespace Market.Api.TestsUnit.services.foundation.user
 {
@@ -33,6 +35,14 @@ namespace Market.Api.TestsUnit.services.foundation.user
 
         private static DateTimeOffset GetRandomDateTimeOffset() =>
                 new DateTimeRange(earliestDate: new DateTime()).GetValue();
+
+        private Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException)
+        {
+            return actualException =>
+            actualException.Message == expectedException.Message 
+            && actualException.InnerException.Message == expectedException.InnerException.Message
+            && (actualException.InnerException as Xeption).DataEquals(expectedException.InnerException.Data);
+        }
 
         private static Filler<Users> CreateUserFiller(DateTimeOffset date)
         {
