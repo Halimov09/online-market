@@ -3,6 +3,7 @@
 // Free To Use Comfort and Peace
 //==================================================
 
+using Market.Api.Brokers.Loggings;
 using Market.Api.Brokers.Storages;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<StorageBroker>();
 builder.Services.AddTransient<IstorageBroker, StorageBroker>();
+builder.Services.AddTransient<ILoggingBroker, LoggingBroker>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
