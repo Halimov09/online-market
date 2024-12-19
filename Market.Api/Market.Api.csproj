@@ -28,4 +28,13 @@
     <PackageReference Include="Xeption" Version="2.8.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Foundation\CartItem\exception\" />
+    <Folder Include="Models\Foundation\Cart\exception\" />
+    <Folder Include="Models\Foundation\Category\exception\" />
+    <Folder Include="Models\Foundation\OrderItem\exception\" />
+    <Folder Include="Models\Foundation\Order\exception\" />
+    <Folder Include="Models\Foundation\Payment\exception\" />
+  </ItemGroup>
+
 </Project>
