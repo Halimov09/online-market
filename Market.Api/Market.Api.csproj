@@ -33,8 +33,6 @@
     <Folder Include="Models\Foundation\Cart\exception\" />
     <Folder Include="Models\Foundation\Category\exception\" />
     <Folder Include="Models\Foundation\OrderItem\exception\" />
-    <Folder Include="Models\Foundation\Order\exception\" />
-    <Folder Include="Models\Foundation\Payment\exception\" />
   </ItemGroup>
 
 </Project>

@@ -40,7 +40,7 @@ namespace Market.Api.TestsUnit.services.foundation.product
             Times.Never);
 
             this.storageBrokerMock.VerifyNoOtherCalls();
-            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
         }
     }
 }
