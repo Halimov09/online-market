@@ -3,6 +3,7 @@
 // Free To Use Comfort and Peace
 //==================================================
 
+using Market.Api.Brokers.Loggings;
 using Market.Api.Brokers.Storages;
 using Market.Api.Models.Foundation.Category;
 
@@ -11,11 +12,27 @@ namespace Market.Api.services.foundation.category
     public class CategoryService : ICategoryService
     {
         private readonly IstorageBroker storageBroker;
+        private readonly ILoggingBroker loggingBroker;
 
-        public CategoryService(IstorageBroker storageBroker) =>
+        public CategoryService(
+            IstorageBroker storageBroker,
+            ILoggingBroker loggingBroker)
+        {
+
             this.storageBroker = storageBroker;
+            this.loggingBroker = loggingBroker;
+        }
 
-        public async ValueTask<Category> AddCategoryAsync(Category category) =>
-            await this.storageBroker.InsertCategoryAsync(category);
+        public async ValueTask<Category> AddCategoryAsync(Category category)
+        {
+            try 
+            {
+                if (category is null) 
+                {
+                   
+                }
+                return await this.storageBroker.InsertCategoryAsync(category);
+            }
+            catch () { }
     }
 }
