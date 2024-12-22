@@ -7,11 +7,6 @@ using FluentAssertions;
 using Force.DeepCloner;
 using Market.Api.Models.Foundation.Category;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Market.Api.TestsUnit.services.foundation.category
 {
@@ -26,17 +21,17 @@ namespace Market.Api.TestsUnit.services.foundation.category
             Category returningCategory = inputCategory;
             Category expectedCategory = returningCategory.DeepClone();
 
-            this.storageBrokerMock.Setup(broker => 
+            this.storageBrokerMock.Setup(broker =>
             broker.InsertCategoryAsync(inputCategory)).ReturnsAsync(returningCategory);
 
             //when
-            Category actualCategory = 
+            Category actualCategory =
                 await this.categoryService.AddCategoryAsync(inputCategory);
 
             //then
             actualCategory.Should().BeEquivalentTo(expectedCategory);
 
-            this.storageBrokerMock.Verify(broker => 
+            this.storageBrokerMock.Verify(broker =>
             broker.InsertCategoryAsync(inputCategory), Times.Once());
 
             this.storageBrokerMock.VerifyNoOtherCalls();
