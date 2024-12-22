@@ -6,6 +6,7 @@
 using Market.Api.Brokers.Loggings;
 using Market.Api.Brokers.Storages;
 using Market.Api.Models.Foundation.Category;
+using Market.Api.Models.Foundation.Category.exception;
 
 namespace Market.Api.services.foundation.category
 {
@@ -25,14 +26,23 @@ namespace Market.Api.services.foundation.category
 
         public async ValueTask<Category> AddCategoryAsync(Category category)
         {
-            try 
+            try
             {
-                if (category is null) 
+                if (category is null)
                 {
-                   
+                    throw new NullCategoryException();
                 }
                 return await this.storageBroker.InsertCategoryAsync(category);
             }
-            catch () { }
+            catch (NullCategoryException nullCategoryException)
+            {
+                var actualCategoryException = 
+                    new CategoryValidationException(nullCategoryException);
+
+                this.loggingBroker.LogError(actualCategoryException);
+
+                throw actualCategoryException;
+            }
+        }
     }
 }
