@@ -10,7 +10,7 @@ using Market.Api.Models.Foundation.Users.exceptions;
 
 namespace Market.Api.services.foundation.user
 {
-    public class UserService : IuserService
+    public partial class UserService : IuserService
     {
         private readonly IstorageBroker storageBroker;
         private readonly ILoggingBroker loggingBroker;
@@ -23,25 +23,11 @@ namespace Market.Api.services.foundation.user
             this.loggingBroker = loggingBroker;
         }
 
-        public async ValueTask<Users> AddUsersAsync(Users users)
+        public ValueTask<Users> AddUsersAsync(Users users) =>
+        TryCatch(async () =>
         {
-            try
-            {
-                if (users is null)
-                {
-                    throw new NullUserException();
-                }
-                return await this.storageBroker.InsertUsersAsync(users);
-            }
-            catch(NullUserException nullUserException)
-            {
-                var userValidationException =
-                    new UserValidationExcption(nullUserException);
-
-                this.loggingBroker.LogError(userValidationException);
-
-                throw userValidationException;
-            }
-        }
+            ValidateUserNotNull(users);
+            return await this.storageBroker.InsertUsersAsync(users);
+        });
     }
 }
