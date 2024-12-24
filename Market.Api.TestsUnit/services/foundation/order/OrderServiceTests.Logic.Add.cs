@@ -6,13 +6,7 @@
 using FluentAssertions;
 using Force.DeepCloner;
 using Market.Api.Models.Foundation.Order;
-using Market.Api.Models.Foundation.Product;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Market.Api.TestsUnit.services.foundation.order
 {
