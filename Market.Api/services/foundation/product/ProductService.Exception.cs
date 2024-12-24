@@ -3,6 +3,7 @@
 // Free To Use Comfort and Peace
 //==================================================
 
+using Market.Api.Models.Foundation.Order.exception;
 using Market.Api.Models.Foundation.Product;
 using Market.Api.Models.Foundation.Product.exception;
 using Xeptions;
