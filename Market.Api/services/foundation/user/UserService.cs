@@ -6,7 +6,6 @@
 using Market.Api.Brokers.Loggings;
 using Market.Api.Brokers.Storages;
 using Market.Api.Models.Foundation.Users;
-using Market.Api.Models.Foundation.Users.exceptions;
 
 namespace Market.Api.services.foundation.user
 {
