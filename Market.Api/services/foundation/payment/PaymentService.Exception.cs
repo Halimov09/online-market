@@ -33,6 +33,5 @@ namespace Market.Api.services.foundation.payment
 
             return paymentValidationException;
         }
-
     }
 }
