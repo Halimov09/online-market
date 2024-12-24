@@ -6,11 +6,10 @@
 using Market.Api.Brokers.Loggings;
 using Market.Api.Brokers.Storages;
 using Market.Api.Models.Foundation.Category;
-using Market.Api.Models.Foundation.Category.exception;
 
 namespace Market.Api.services.foundation.category
 {
-    public class CategoryService : ICategoryService
+    public partial class CategoryService : ICategoryService
     {
         private readonly IstorageBroker storageBroker;
         private readonly ILoggingBroker loggingBroker;
@@ -24,25 +23,11 @@ namespace Market.Api.services.foundation.category
             this.loggingBroker = loggingBroker;
         }
 
-        public async ValueTask<Category> AddCategoryAsync(Category category)
+        public ValueTask<Category> AddCategoryAsync(Category category) =>
+        TryCatch(async () =>
         {
-            try
-            {
-                if (category is null)
-                {
-                    throw new NullCategoryException();
-                }
-                return await this.storageBroker.InsertCategoryAsync(category);
-            }
-            catch (NullCategoryException nullCategoryException)
-            {
-                var actualCategoryException = 
-                    new CategoryValidationException(nullCategoryException);
-
-                this.loggingBroker.LogError(actualCategoryException);
-
-                throw actualCategoryException;
-            }
-        }
+            ValidateCategoryNotNull(category);
+            return await this.storageBroker.InsertCategoryAsync(category);
+        });
     }
 }
