@@ -4,6 +4,7 @@
 //==================================================
 
 
+using Market.Api.Models.Foundation.Order.exception;
 using Market.Api.Models.Foundation.Product;
 using Market.Api.Models.Foundation.Product.exception;
 using Market.Api.Models.Foundation.Users;
