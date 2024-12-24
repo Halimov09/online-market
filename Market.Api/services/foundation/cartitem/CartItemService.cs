@@ -6,43 +6,28 @@
 using Market.Api.Brokers.Loggings;
 using Market.Api.Brokers.Storages;
 using Market.Api.Models.Foundation.CartItem;
-using Market.Api.Models.Foundation.CartItem.exception;
 
 namespace Market.Api.services.foundation.cartitem
 {
-    public class CartItemService : ICartItemService
+    public partial class CartItemService : ICartItemService
     {
         private readonly IstorageBroker storageBroker;
         private readonly ILoggingBroker loggingBroker;
 
         public CartItemService(
-            IstorageBroker storageBroker, 
+            IstorageBroker storageBroker,
             ILoggingBroker loggingBroker)
         {
             this.storageBroker = storageBroker;
             this.loggingBroker = loggingBroker;
         }
 
-        public async ValueTask<CartItem> AddCartItemAsync(CartItem cartItem)
+        public ValueTask<CartItem> AddCartItemAsync(CartItem cartItem) =>
+        TryCatch(async () =>
         {
-            try
-            {
-                if (cartItem is null)
-                {
-                    throw new NullCartItemException();
-                }
-                return await this.storageBroker.InsertCartItemAsync(cartItem);
-            }
-            catch (NullCartItemException nullCartrItemException) 
-            {
-                var actualCartItemException =
-                    new CartItemValidationException(nullCartrItemException);
+            ValidateCartItemNotNull(cartItem);
+            return await this.storageBroker.InsertCartItemAsync(cartItem);
+        });
 
-                this.loggingBroker.LogError(actualCartItemException);
-
-                throw actualCartItemException;
-            }
-        }
-            
     }
 }
