@@ -6,7 +6,6 @@
 using Market.Api.Brokers.Loggings;
 using Market.Api.Brokers.Storages;
 using Market.Api.Models.Foundation.Cart;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Market.Api.services.foundation.cart
 {
