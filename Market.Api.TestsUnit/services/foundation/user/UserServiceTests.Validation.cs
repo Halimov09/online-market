@@ -68,6 +68,10 @@ namespace Market.Api.TestsUnit.services.foundation.user
                 key: nameof(Users.Email),
                 values: "Text is required");
 
+            invalidUserException.AddData(
+                key: nameof(Users.Password),
+                values: "Text is required");
+
             var expectedUserValidationException = 
                 new UserValidationExcption(invalidUserException);
 

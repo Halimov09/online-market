@@ -13,6 +13,6 @@ namespace Market.Api.Models.Foundation.Users
         public string Email { get; set; }
         public string Password { get; set; }
         public Role Role { get; set; }
-        public DateTime CreateDate { get; set; }
+        public DateTime CreateDate { get; set; } = DateTime.UtcNow;
     }
 }
