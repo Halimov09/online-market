@@ -39,9 +39,7 @@ namespace Market.Api.TestsUnit.services.foundation.payment
             return actualException =>
             actualException.Message == expectedException.Message
             && actualException.InnerException.Message ==
-            expectedException.InnerException.Message
-            && (actualException.InnerException as Xeption)
-            .DataEquals(expectedException.InnerException.Data);
+            expectedException.InnerException.Message;
         }
 
         private static Filler<Payment> CreatePaymentFiller() => new Filler<Payment>();

@@ -23,6 +23,10 @@ namespace Market.Api.services.foundation.payment
             {
                 throw CreateAndLogValidationException(nullPaymentException);
             }
+            catch (InvalidPaymentException invalidPaymentException)
+            {
+                throw CreateAndLogValidationException(invalidPaymentException);
+            }
         }
         private PaymentValidationException CreateAndLogValidationException(Xeption xeption)
         {
