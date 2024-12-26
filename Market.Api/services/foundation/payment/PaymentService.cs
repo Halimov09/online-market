@@ -26,7 +26,7 @@ namespace Market.Api.services.foundation.payment
         public ValueTask<Payment> AddPaymentAsync(Payment payment) =>
         TryCatch(async () =>
         {
-            ValidatePaymentNotNull(payment);
+            ValidatePaymentOnAdd(payment);
             return await this.storageBroker.InsertPaymentAsync(payment);
         });
     }

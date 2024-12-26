@@ -43,5 +43,52 @@ namespace Market.Api.TestsUnit.services.foundation.payment
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Theory]
+        [InlineData(null)]
+        public async Task ShouldThrowExceptionOnAddIfPaymentIsInvalidAndLogitAsync(
+            int invalidtext)
+        {
+            //given
+            var paymentInvalid = new Payment
+            {
+                Amount = invalidtext,
+            };
+
+            var invalidPaymentException = new InvalidPaymentException();
+
+            invalidPaymentException.AddData(
+                key: nameof(Payment.Id),
+                values: "Id is required");
+
+            invalidPaymentException.AddData(
+                key: nameof(Payment.OrderId),
+                values: "CategoryId is required");
+
+            invalidPaymentException.AddData(
+                key: nameof(Payment.Amount),
+                values: "Number is required");
+
+            var expectedPaymentException =
+                new PaymentValidationException(invalidPaymentException);
+
+            //when
+            ValueTask<Payment> addProductTask =
+                this.paymentService.AddPaymentAsync(paymentInvalid);
+
+            //then
+            await Assert.ThrowsAsync<PaymentValidationException>(() =>
+            addProductTask.AsTask());
+
+            this.loggingBrokerMock.Verify(broker =>
+            broker.LogError(It.Is(SameExceptionAs(expectedPaymentException))),
+            Times.Once());
+
+            this.storageBrokerMock.Verify(broker =>
+            broker.InsertPaymentAsync(It.IsAny<Payment>()), Times.Never);
+
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }
