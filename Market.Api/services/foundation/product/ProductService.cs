@@ -25,7 +25,7 @@ namespace Market.Api.services.foundation.product
         public ValueTask<Product> AddProductAsync(Product product) =>
         TryCatch(async () =>
         {
-            ValidateProductNotNull(product);
+            ValidateProductOnAdd(product);
             return await this.storageBroker.InsertProductAsync(product);
         });
     }

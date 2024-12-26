@@ -40,5 +40,55 @@ namespace Market.Api.TestsUnit.services.foundation.user
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        public async Task ShouldThrowValidationExceptionOnAddIfInvalidAndLogitAsync
+            (string invalidText)
+        {
+            //given
+            var invalidUser = new Users
+            {
+                Name = invalidText,
+            };
+
+            var invalidUserException = new InvalidUserException();
+
+            invalidUserException.AddData(
+                key: nameof(Users.Id),
+                values: "Id is required");
+
+            invalidUserException.AddData(
+                key: nameof(Users.Name),
+                values: "Text is required");
+
+            invalidUserException.AddData(
+                key: nameof(Users.Email),
+                values: "Text is required");
+
+            var expectedUserValidationException = 
+                new UserValidationExcption(invalidUserException);
+
+            //when
+            ValueTask<Users> addUserTask =
+                this.userService.AddUsersAsync(invalidUser);
+
+            //then
+            await Assert.ThrowsAsync<UserValidationExcption> (() =>
+            addUserTask.AsTask());
+
+            this.loggingBrokerMock.Verify(broker => 
+            broker.LogError(It.Is(SameExceptionAs(expectedUserValidationException))),
+                Times.Once());
+
+            this.storageBrokerMock.Verify(broker =>
+            broker.InsertUsersAsync(It.IsAny<Users>()),
+            Times.Never);
+
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }
