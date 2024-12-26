@@ -24,6 +24,10 @@ namespace Market.Api.services.foundation.product
             {
                 throw CreateAndLogValidationException(nullProductException);
             }
+            catch (InvalidProductException invalidProductException)
+            {
+                throw CreateAndLogValidationException(invalidProductException);
+            }
         }
         private ProductValidationException CreateAndLogValidationException(Xeption xeption)
         {

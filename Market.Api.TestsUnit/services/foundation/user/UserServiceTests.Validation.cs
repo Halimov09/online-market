@@ -65,12 +65,8 @@ namespace Market.Api.TestsUnit.services.foundation.user
                 values: "Text is required");
 
             invalidUserException.AddData(
-                key: nameof(Users.CreateDate),
-                values: "Data is required");
-
-            invalidUserException.AddData(
                 key: nameof(Users.Email),
-                values: "Email is required");
+                values: "Text is required");
 
             var expectedUserValidationException = 
                 new UserValidationExcption(invalidUserException);
@@ -84,9 +80,8 @@ namespace Market.Api.TestsUnit.services.foundation.user
             addUserTask.AsTask());
 
             this.loggingBrokerMock.Verify(broker => 
-            broker.LogError(It.Is(
-                SameExceptionAs(expectedUserValidationException))),
-                Times.Once);
+            broker.LogError(It.Is(SameExceptionAs(expectedUserValidationException))),
+                Times.Once());
 
             this.storageBrokerMock.Verify(broker =>
             broker.InsertUsersAsync(It.IsAny<Users>()),

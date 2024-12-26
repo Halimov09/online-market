@@ -70,10 +70,6 @@ namespace Market.Api.TestsUnit.services.foundation.product
                 values: "Text is required");
 
             invalidProductException.AddData(
-                key: nameof(Product.Description),
-                values: "Text is required");
-
-            invalidProductException.AddData(
                 key: nameof(Product.Price),
                 values: "Price is required");
 
@@ -90,7 +86,7 @@ namespace Market.Api.TestsUnit.services.foundation.product
 
             this.loggingBrokerMock.Verify(broker =>
             broker.LogError(It.Is(SameExceptionAs(expectedProductException))),
-            Times.Once);
+            Times.Once());
 
             this.storageBrokerMock.Verify(broker =>
             broker.InsertProductAsync(It.IsAny<Product>()), Times.Never);

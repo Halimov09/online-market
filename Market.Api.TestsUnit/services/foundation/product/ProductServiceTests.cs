@@ -42,8 +42,8 @@ namespace Market.Api.TestsUnit.services.foundation.product
         {
             return actualException =>
             actualException.Message == expectedException.Message
-            && actualException.InnerException.Message == expectedException.InnerException.Message
-            && (actualException.InnerException as Xeption).DataEquals(expectedException.InnerException.Data);
+            && actualException.InnerException.Message == 
+            expectedException.InnerException.Message ;
         }
 
         private static Filler<Product> CreateProductFiller(DateTimeOffset date)

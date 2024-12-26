@@ -25,7 +25,7 @@ namespace Market.Api.services.foundation.user
         public ValueTask<Users> AddUsersAsync(Users users) =>
         TryCatch(async () =>
         {
-            ValidateUserNotNull(users);
+            ValidateUserOnAdd(users);
             return await this.storageBroker.InsertUsersAsync(users);
         });
     }

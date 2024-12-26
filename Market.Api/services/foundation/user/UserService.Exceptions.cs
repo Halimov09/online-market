@@ -23,6 +23,10 @@ namespace Market.Api.services.foundation.user
             {
                 throw CreateAndLogValidationException(nullUserException);
             }
+            catch (InvalidUserException invalidUserException)
+            {
+                throw CreateAndLogValidationException(invalidUserException);
+            }
         }
         private UserValidationExcption CreateAndLogValidationException(Xeption xeption)
         {

@@ -36,12 +36,12 @@ namespace Market.Api.TestsUnit.services.foundation.user
         private static DateTimeOffset GetRandomDateTimeOffset() =>
                 new DateTimeRange(earliestDate: new DateTime()).GetValue();
 
-        private Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException)
+        private Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedUserValidationException)
         {
             return actualException =>
-            actualException.Message == expectedException.Message 
-            && actualException.InnerException.Message == expectedException.InnerException.Message
-            && (actualException.InnerException as Xeption).DataEquals(expectedException.InnerException.Data);
+            actualException.Message == expectedUserValidationException.Message 
+            && actualException.InnerException.Message == expectedUserValidationException.InnerException.Message
+            && (actualException.InnerException as Xeption).DataEquals(expectedUserValidationException.InnerException.Data);
         }
 
         private static Filler<Users> CreateUserFiller(DateTimeOffset date)
