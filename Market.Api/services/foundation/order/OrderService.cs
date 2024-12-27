@@ -25,7 +25,7 @@ namespace Market.Api.services.foundation.order
         public ValueTask<Order> AddOrderAsync(Order order) =>
         TryCatch(async () =>
         {
-            ValidateOrderNotNull(order);
+            ValidateOrderOnAdd(order);
             return await this.storageBroker.InsertOrderAsync(order);
         });
     }
