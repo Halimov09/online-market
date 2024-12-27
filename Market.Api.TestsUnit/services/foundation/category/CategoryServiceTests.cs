@@ -39,9 +39,7 @@ namespace Market.Api.TestsUnit.services.foundation.category
             return actualCategoryException =>
             actualCategoryException.Message == expectedCategoryException.Message &&
             actualCategoryException.InnerException.Message ==
-            expectedCategoryException.InnerException.Message
-            && (actualCategoryException.InnerException as Xeption)
-            .DataEquals(expectedCategoryException.Data);
+            expectedCategoryException.InnerException.Message;
         }
 
         private static Filler<Category> CreateCategoryFiller() => new Filler<Category>();

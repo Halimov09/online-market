@@ -38,5 +38,50 @@ namespace Market.Api.TestsUnit.services.foundation.category
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        public async Task ShouldThrowExceptionOnAddIfInvalidAndLogitAsync(
+            string invalidtext)
+        {
+            //given
+            var categoryInvalid = new Category
+            {
+                Name = invalidtext,
+            };
+
+            var invalidCategoryException = new InvalidCategoryException();
+
+            invalidCategoryException.AddData(
+                key: nameof(Category.Id),
+                values: "Id is required");
+
+            invalidCategoryException.AddData(
+                key: nameof(Category.Name),
+                values: "Name is required");
+
+            var expectedCategoryException =
+                new CategoryValidationException(invalidCategoryException);
+
+            //when
+            ValueTask<Category> addCategoryTask =
+                this.categoryService.AddCategoryAsync(categoryInvalid);
+
+            //then
+            await Assert.ThrowsAsync<CategoryValidationException> (() =>
+            addCategoryTask.AsTask());
+
+            this.loggingBrokerMock.Verify(broker =>
+            broker.LogError(It.Is(SameExceptionAs(expectedCategoryException))),
+            Times.Once);
+
+            this.storageBrokerMock.Verify(broker =>
+            broker.InsertCategoryAsync(It.IsAny<Category>()), Times.Never);
+
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }

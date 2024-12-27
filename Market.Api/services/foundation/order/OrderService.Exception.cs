@@ -23,6 +23,10 @@ namespace Market.Api.services.foundation.order
             {
                 throw CreateAndLogValidationException(nullOrderException);
             }
+            catch(InvalidOrderExceptoion invalidOrderException)
+            {
+                throw CreateAndLogValidationException(invalidOrderException);
+            }
         }
         private OrderValidationException CreateAndLogValidationException(Xeption xeption)
         {

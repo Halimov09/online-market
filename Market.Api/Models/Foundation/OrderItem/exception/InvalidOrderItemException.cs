@@ -7,12 +7,10 @@ using Xeptions;
 
 namespace Market.Api.Models.Foundation.OrderItem.exception
 {
-    public class NullOrderException : Xeption
+    public class InvalidOrderItemException : Xeption
     {
-        public NullOrderException()
-            : base(message: "Order is null")
-        {
-
-        }
+        public InvalidOrderItemException()
+            :base(message: "Order is invalid")
+        {}
     }
 }

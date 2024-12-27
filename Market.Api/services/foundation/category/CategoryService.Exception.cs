@@ -23,6 +23,10 @@ namespace Market.Api.services.foundation.category
             {
                 throw CreateAndLogValidationException(nullCategoryException);
             }
+            catch(InvalidCategoryException invalidCategoryException)
+            {
+                throw CreateAndLogValidationException(invalidCategoryException);
+            }
         }
         private CategoryValidationException CreateAndLogValidationException(Xeption xeption)
         {
