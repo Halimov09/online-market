@@ -26,7 +26,7 @@ namespace Market.Api.services.foundation.category
         public ValueTask<Category> AddCategoryAsync(Category category) =>
         TryCatch(async () =>
         {
-            ValidateCategoryNotNull(category);
+            ValidatePaymentOnAdd(category);
             return await this.storageBroker.InsertCategoryAsync(category);
         });
     }

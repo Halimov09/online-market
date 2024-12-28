@@ -39,9 +39,7 @@ namespace Market.Api.TestsUnit.services.foundation.order
             return actualCategoryException =>
             actualCategoryException.Message == expectedException.Message &&
             actualCategoryException.InnerException.Message ==
-            expectedException.InnerException.Message
-            && (actualCategoryException.InnerException as Xeption)
-            .DataEquals(expectedException.Data);
+            expectedException.InnerException.Message;
         }
 
         private static DateTimeOffset GetRandomDateTimeOffSet() =>

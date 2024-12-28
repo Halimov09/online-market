@@ -7,11 +7,10 @@ using Xeptions;
 
 namespace Market.Api.Models.Foundation.Order.exception
 {
-    public class OrderValidationException : Xeption
+    public class InvalidOrderExceptoion : Xeption
     {
-        public OrderValidationException(Xeption innerException)
-            : base(message: "Order validation error occured, fix the errors and try again",
-                 innerException)
-        { }
+        public InvalidOrderExceptoion()
+            :base(message: "Order is invalid")
+        {}
     }
 }
