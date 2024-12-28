@@ -6,8 +6,6 @@
 using Market.Api.Models.Foundation.Cart;
 using Market.Api.Models.Foundation.Cart.exception;
 using Moq;
-using System.Linq.Expressions;
-using Xeptions;
 
 namespace Market.Api.TestsUnit.services.foundation.cart
 {
@@ -20,7 +18,7 @@ namespace Market.Api.TestsUnit.services.foundation.cart
             Cart cartNull = null;
             var cartNullException = new NullCartException();
 
-            var expetedCartException = 
+            var expetedCartException =
                 new CartValidationException(cartNullException);
 
             //when
@@ -36,11 +34,11 @@ namespace Market.Api.TestsUnit.services.foundation.cart
 
             this.storageBrokerMock.Verify(broker =>
              broker.InsertCartAsync(It.IsAny<Cart>()), Times.Never);
-            
+
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
 
-        
+
     }
 }
