@@ -17,7 +17,8 @@ namespace Market.Api.services.foundation.user
             Validate(
                 (Rule: IsInvalid(users.Id), Parameter: nameof(Users.Id)),
                 (Rule: IsInvalid(users.Name), Parameter: nameof(Users.Name)),
-                (Rule: IsInvalid(users.Email), Parameter: nameof(Users.Email))
+                (Rule: IsInvalid(users.Email), Parameter: nameof(Users.Email)),
+                (Rule: IsInvalid(users.Role), Parameter: nameof(Users.Role))
                 );
         }
 
@@ -41,6 +42,11 @@ namespace Market.Api.services.foundation.user
             Message = "Text is required"
         };
 
+        private static dynamic IsInvalid(Role role) => new
+        {
+            Condition = Enum.IsDefined(role) is false,
+            Message = "Value is invalid"
+        };
 
         private static void Validate(params (dynamic Rule, string Parametr)[] validations)
         {
