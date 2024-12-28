@@ -15,7 +15,8 @@ namespace Market.Api.services.foundation.payment
             ValidatePaymentNotNull(payment);
 
             Validate(
-                (Rule: IsInvalid(payment.Id), Parameter: nameof(Payment.Id))
+                (Rule: IsInvalid(payment.Id), Parameter: nameof(Payment.Id)),
+                (Rule: IsInvalid(payment.paymentMethod), Parameter: nameof(Payment.paymentMethod))
                 );
         }
 
@@ -37,6 +38,12 @@ namespace Market.Api.services.foundation.payment
         {
             Condition = amount == decimal.MaxValue,
             Message = "Amount is required"
+        };
+
+        private static dynamic IsInvalid(PaymentMethod paymentMethod) => new
+        {
+            Condition = Enum.IsDefined(paymentMethod) is false,
+            Message = "Value is required"
         };
 
         private static void Validate(params (dynamic Rule, string Parameter)[] validations)
