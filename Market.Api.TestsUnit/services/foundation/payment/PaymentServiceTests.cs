@@ -34,6 +34,21 @@ namespace Market.Api.TestsUnit.services.foundation.payment
         private static Payment CreateRandomPayment() =>
             CreatePaymentFiller().Create();
 
+        private static int GetRandomNumber() =>
+           new IntRange(min: 2, max: 9).GetValue();
+
+        private static T GetInvalidEnum<T>()
+        {
+            int randomNumber = GetRandomNumber();
+
+            while (Enum.IsDefined(typeof(T), randomNumber) is true)
+            {
+                randomNumber = GetRandomNumber();
+            }
+
+            return (T)(object)randomNumber;
+        }
+
         private Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException)
         {
             return actualException =>

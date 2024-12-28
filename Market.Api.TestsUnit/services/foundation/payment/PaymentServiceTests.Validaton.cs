@@ -6,8 +6,9 @@
 using Market.Api.Models.Foundation.Payment;
 using Market.Api.Models.Foundation.Payment.exception;
 using Market.Api.Models.Foundation.Product.exception;
+using Market.Api.Models.Foundation.Users.exceptions;
+using Market.Api.Models.Foundation.Users;
 using Moq;
-using Xunit.Sdk;
 
 namespace Market.Api.TestsUnit.services.foundation.payment
 {
@@ -89,6 +90,42 @@ namespace Market.Api.TestsUnit.services.foundation.payment
 
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowValidationExceptionOnAddIfEnumPaymentAndLogitAsync()
+        {
+            //given
+            Payment randomPayment = CreateRandomPayment();
+            Payment invalidPayment = randomPayment;
+            invalidPayment.paymentMethod = GetInvalidEnum<PaymentMethod>();
+
+            var invalidPaymentException = new InvalidPaymentException();
+
+            invalidPaymentException.AddData(
+                key: nameof(Payment.paymentMethod),
+                values: "Value is invalid");
+
+            var expectedPaymentException =
+                new PaymentValidationException(invalidPaymentException);
+
+            //when
+            ValueTask<Payment> addUserTask =
+                this.paymentService.AddPaymentAsync(invalidPayment);
+
+            //then
+            await Assert.ThrowsAsync<PaymentValidationException>(() =>
+            addUserTask.AsTask());
+
+            this.loggingBrokerMock.Verify(broker =>
+             broker.LogError(It.Is(SameExceptionAs(expectedPaymentException))),
+             Times.Once());
+
+            this.storageBrokerMock.Verify(broker =>
+            broker.InsertPaymentAsync(It.IsAny<Payment>()), Times.Never);
+
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
         }
     }
 }
