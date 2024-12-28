@@ -94,5 +94,42 @@ namespace Market.Api.TestsUnit.services.foundation.user
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Fact]
+        public async Task ShouldThrowValidationExceptionOnAddIfEnumUserAndLogitAsync()
+        {
+            //given
+            Users randomUser = CreateRandomUser();
+            Users invalidUser = randomUser;
+            invalidUser.Role = GetInvalidEnum<Role>();
+
+            var invalidUserException = new InvalidUserException();
+
+            invalidUserException.AddData(
+                key: nameof(Users.Role),
+                values: "Value is invalid");
+
+            var expectedUserException = 
+                new UserValidationExcption(invalidUserException);
+
+            //when
+            ValueTask<Users> addUserTask =
+                this.userService.AddUsersAsync(invalidUser);
+
+            //then
+            await Assert.ThrowsAsync<UserValidationExcption> (() =>
+            addUserTask.AsTask());
+
+            this.loggingBrokerMock.Verify(broker =>
+             broker.LogError(It.Is(SameExceptionAs(expectedUserException))),
+             Times.Once());
+
+            this.storageBrokerMock.Verify(broker => 
+            broker.InsertUsersAsync (It.IsAny<Users>()), Times.Never);
+
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+        }
+
     }
 }
