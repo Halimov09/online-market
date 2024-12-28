@@ -16,7 +16,8 @@ namespace Market.Api.services.foundation.order
 
             Validate(
                 (Rule: IsInvalid(order.Id), Parameter: nameof(Order.Id)),
-                (Rule: IsInvalid(order.TotalPrice), Parameter: nameof(Order.TotalPrice))
+                (Rule: IsInvalid(order.TotalPrice), Parameter: nameof(Order.TotalPrice)),
+                (Rule: IsInvalid(order.OrderStatus), Parameter: nameof(Order.OrderStatus))
                 );
         }
 
@@ -38,6 +39,12 @@ namespace Market.Api.services.foundation.order
         {
             Condition = totalPrice == decimal.MaxValue,
             Message = "totalPrice is required"
+        };
+
+        private static dynamic IsInvalid(OrderStatus OrderStatus) => new
+        {
+            Condition = Enum.IsDefined(OrderStatus) is false,
+            Message = "Value is required"
         };
 
         private static void Validate(params (dynamic Rule, string Parameter)[] validations)

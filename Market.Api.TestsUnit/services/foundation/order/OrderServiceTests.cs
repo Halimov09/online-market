@@ -34,6 +34,9 @@ namespace Market.Api.TestsUnit.services.foundation.order
         private static Order CreateRandomOrder() =>
             CreateOrderFiller(date: GetRandomDateTimeOffSet()).Create();
 
+        private static DateTimeOffset GetRandomDateTimeOffSet() =>
+            new DateTimeRange(earliestDate: new DateTime()).GetValue();
+
         private static int GetRandomNumber() =>
              new IntRange(min: 2, max: 9).GetValue();
 
@@ -56,9 +59,6 @@ namespace Market.Api.TestsUnit.services.foundation.order
             actualCategoryException.InnerException.Message ==
             expectedException.InnerException.Message;
         }
-
-        private static DateTimeOffset GetRandomDateTimeOffSet() =>
-            new DateTimeRange(earliestDate: new DateTime()).GetValue();
 
         private static Filler<Order> CreateOrderFiller(DateTimeOffset date)
         {

@@ -89,9 +89,15 @@ namespace Market.Api.TestsUnit.services.foundation.order
             //given
             Order randomOrder = CreateRandomOrder();
             Order invalidOrder = randomOrder;
-            invalidOrder.orderStatus = GetInvalidEnum<OrderStatus>();
+            invalidOrder.OrderStatus = GetInvalidEnum<OrderStatus>();
 
-            var expectedOrderException = new InvalidOrderExceptoion();
+            var invalidOrderException = new InvalidOrderExceptoion();
+
+            invalidOrderException.AddData(
+                key: nameof(Order.OrderStatus),
+                values: "Value is required");
+
+            var expectedOrderException = new OrderValidationException(invalidOrderException);
 
             //when
             ValueTask<Order> addOrderTask =
@@ -108,8 +114,8 @@ namespace Market.Api.TestsUnit.services.foundation.order
             this.storageBrokerMock.Verify(broker =>
             broker.InsertOrderAsync(It.IsAny<Order>()), Times.Never);
 
-            this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
         }
     }
 }
