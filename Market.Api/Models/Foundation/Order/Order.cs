@@ -11,6 +11,6 @@ namespace Market.Api.Models.Foundation.Order
         public Guid UserId { get; set; } // Foydalanuvchi identifikatori
         public decimal TotalPrice { get; set; } // Buyurtma umumiy summasi
         public DateTime OrderDate { get; set; } // Buyurtma sanasi
-        public OrderStatus Status { get; set; } // Buyurtma holati (enum)
+        public OrderStatus orderStatus { get; set; } // Buyurtma holati (enum)
     }
 }

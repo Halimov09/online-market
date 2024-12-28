@@ -82,5 +82,34 @@ namespace Market.Api.TestsUnit.services.foundation.order
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Fact]
+        public async Task ShouldThrowValidationExceptionOnAddEnumOrderStatusIfAndLogitAsync()
+        {
+            //given
+            Order randomOrder = CreateRandomOrder();
+            Order invalidOrder = randomOrder;
+            invalidOrder.orderStatus = GetInvalidEnum<OrderStatus>();
+
+            var expectedOrderException = new InvalidOrderExceptoion();
+
+            //when
+            ValueTask<Order> addOrderTask =
+                this.orderService.AddOrderAsync(invalidOrder);
+
+            //then
+            await Assert.ThrowsAsync<OrderValidationException>(()=> 
+            addOrderTask.AsTask());
+
+            this.loggingBrokerMock.Verify(broker =>
+            broker.LogError(It.Is(SameExceptionAs(expectedOrderException))),
+            Times.Once());
+
+            this.storageBrokerMock.Verify(broker =>
+            broker.InsertOrderAsync(It.IsAny<Order>()), Times.Never);
+
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }
