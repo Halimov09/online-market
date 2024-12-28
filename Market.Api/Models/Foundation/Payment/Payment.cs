@@ -11,7 +11,7 @@ namespace Market.Api.Models.Foundation.Payment
         public int OrderId { get; set; } // Buyurtma identifikatori
         public DateTime PaymentDate { get; set; } = DateTime.UtcNow; // To‘lov sanasi
         public decimal Amount { get; set; } // To‘langan summa
-        public PaymentMethod Method { get; set; } // To‘lov usuli
+        public PaymentMethod paymentMethod { get; set; } // To‘lov usuli
     }
 
 }

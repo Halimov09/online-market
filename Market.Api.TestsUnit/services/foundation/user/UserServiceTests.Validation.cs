@@ -130,6 +130,5 @@ namespace Market.Api.TestsUnit.services.foundation.user
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
         }
-
     }
 }
