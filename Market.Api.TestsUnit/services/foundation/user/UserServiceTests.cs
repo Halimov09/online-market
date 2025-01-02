@@ -44,11 +44,11 @@ namespace Market.Api.TestsUnit.services.foundation.user
         private static SqlException GetSqlError() =>
             (SqlException)FormatterServices.GetUninitializedObject(typeof(SqlException));
 
-        private static T GetInvalidEnum<T> ()
+        private static T GetInvalidEnum<T>()
         {
             int randomNumber = GetRandomNumber();
 
-            while(Enum.IsDefined(typeof(T), randomNumber) is true)
+            while (Enum.IsDefined(typeof(T), randomNumber) is true)
             {
                 randomNumber = GetRandomNumber();
             }
@@ -59,7 +59,7 @@ namespace Market.Api.TestsUnit.services.foundation.user
         private Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException)
         {
             return actualException =>
-            actualException.Message == expectedException.Message 
+            actualException.Message == expectedException.Message
             && actualException.InnerException.Message ==
             expectedException.InnerException.Message;
         }
