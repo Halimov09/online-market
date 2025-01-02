@@ -3,6 +3,7 @@
 // Free To Use Comfort and Peace
 //==================================================
 
+using EFxceptions.Models.Exceptions;
 using Market.Api.Models.Foundation.Users;
 using Market.Api.Models.Foundation.Users.exceptions;
 using Microsoft.Data.SqlClient;
@@ -41,6 +42,44 @@ namespace Market.Api.TestsUnit.services.foundation.user
             this.loggingBrokerMock.Verify(broker => 
             broker.LogCritical(It.Is(SameExceptionAs(expectedUserException))),
             Times.Once());
+
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowUserDependencyValidationExceptionOnAddIfAndLogItAsync()
+        {
+            //given
+            Users someUser = CreateRandomUser();
+            string someMessage = GetRandomString();
+
+            var duplicateKeyException = 
+                new DuplicateKeyException(someMessage);
+
+            var alreadyExistUserException = 
+                new AlreadyExisUserException(duplicateKeyException);
+
+            var userDependencyValidationException = 
+                new UserDependencyValidationException(alreadyExistUserException);
+
+            this.storageBrokerMock.Setup(broker => 
+            broker.InsertUsersAsync(someUser)) .ThrowsAsync(duplicateKeyException);
+
+            //when
+            ValueTask<Users> addUserTask =
+                this.userService.AddUsersAsync(someUser);
+
+            //then
+            await Assert.ThrowsAsync<UserDependencyValidationException> (() => 
+            addUserTask.AsTask());
+
+            this.storageBrokerMock.Verify(broker =>
+             broker.InsertUsersAsync(someUser), Times.Once());
+
+            this.loggingBrokerMock.Verify(broker =>
+            broker.LogError(It.Is(SameExceptionAs(userDependencyValidationException))),
+            Times.Once);
 
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
