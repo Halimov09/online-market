@@ -5,6 +5,7 @@
 
 using Market.Api.Models.Foundation.Users;
 using Market.Api.Models.Foundation.Users.exceptions;
+using Microsoft.Data.SqlClient;
 using Xeptions;
 
 namespace Market.Api.services.foundation.user
@@ -27,6 +28,12 @@ namespace Market.Api.services.foundation.user
             {
                 throw CreateAndLogValidationException(invalidUserException);
             }
+            catch (SqlException sqlExcepion)
+            {
+                var failedUserStorageException = new FailedUserStorageException(sqlExcepion);
+
+                throw CreateAndLogCriticalDependencyException(failedUserStorageException);
+            }
         }
         private UserValidationExcption CreateAndLogValidationException(Xeption xeption)
         {
@@ -38,5 +45,14 @@ namespace Market.Api.services.foundation.user
             return userValidationException;
         }
 
+        private UserDependencyException CreateAndLogCriticalDependencyException(Xeption xeption)
+        {
+            var userDependencyException = new 
+                UserDependencyException(xeption);
+
+            this.loggingBroker.LogCritical(userDependencyException);
+
+            return userDependencyException;
+        }
     }
 }
