@@ -5,6 +5,7 @@
 
 using Market.Api.Models.Foundation.Payment;
 using Market.Api.Models.Foundation.Payment.exception;
+using Microsoft.Data.SqlClient;
 using Xeptions;
 
 namespace Market.Api.services.foundation.payment
@@ -27,6 +28,12 @@ namespace Market.Api.services.foundation.payment
             {
                 throw CreateAndLogValidationException(invalidPaymentException);
             }
+            catch(SqlException sqlException)
+            {
+                var failedPaymentStorageException = new FailedPaymentStorageException(sqlException);
+
+                throw CreateAndLogCriticalDependencyException(failedPaymentStorageException);
+            }
         }
         private PaymentValidationException CreateAndLogValidationException(Xeption xeption)
         {
@@ -36,6 +43,16 @@ namespace Market.Api.services.foundation.payment
             this.loggingBroker.LogError(paymentValidationException);
 
             return paymentValidationException;
+        }
+
+        private PaymentDependencyException CreateAndLogCriticalDependencyException(Xeption xeption)
+        {
+            var paymentDependencyException =
+                new PaymentDependencyException(xeption);
+
+            this.loggingBroker.LogCritical(paymentDependencyException);
+
+            return paymentDependencyException;
         }
     }
 }
