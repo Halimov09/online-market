@@ -3,6 +3,7 @@
 // Free To Use Comfort and Peace
 //==================================================
 
+using EFxceptions.Models.Exceptions;
 using Market.Api.Models.Foundation.Users;
 using Market.Api.Models.Foundation.Users.exceptions;
 using Microsoft.Data.SqlClient;
@@ -34,6 +35,12 @@ namespace Market.Api.services.foundation.user
 
                 throw CreateAndLogCriticalDependencyException(failedUserStorageException);
             }
+            catch (DuplicateKeyException duplicateKeyException)
+            {
+                var alreadyUserException = new AlreadyExisUserException(duplicateKeyException);
+
+                throw CreateAndLogValidationDependencyException(alreadyUserException);
+            }
         }
         private UserValidationExcption CreateAndLogValidationException(Xeption xeption)
         {
@@ -53,6 +60,16 @@ namespace Market.Api.services.foundation.user
             this.loggingBroker.LogCritical(userDependencyException);
 
             return userDependencyException;
+        }
+
+        private UserDependencyValidationException CreateAndLogValidationDependencyException(Xeption xeption)
+        {
+            var userDependencyValidationException = 
+                new UserDependencyValidationException(xeption);
+
+            this.loggingBroker.LogError(userDependencyValidationException);
+
+            return userDependencyValidationException;
         }
     }
 }
