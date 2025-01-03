@@ -42,6 +42,7 @@ namespace Market.Api.services.foundation.user
                 throw CreateAndLogValidationDependencyException(alreadyUserException);
             }
         }
+
         private UserValidationExcption CreateAndLogValidationException(Xeption xeption)
         {
             var userValidationException =
