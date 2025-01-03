@@ -41,7 +41,14 @@ namespace Market.Api.services.foundation.user
 
                 throw CreateAndLogValidationDependencyException(alreadyUserException);
             }
+            catch(Exception  exception)
+            {
+                var failedUserException = new FailedUserException(exception);
+
+                throw CreateAndLogFailedServiceException(failedUserException);
+            }
         }
+
         private UserValidationExcption CreateAndLogValidationException(Xeption xeption)
         {
             var userValidationException =
@@ -70,6 +77,16 @@ namespace Market.Api.services.foundation.user
             this.loggingBroker.LogError(userDependencyValidationException);
 
             return userDependencyValidationException;
+        }
+
+        private UserserviceException CreateAndLogFailedServiceException(Xeption xeption)
+        {
+            var userserviceException =
+                new UserserviceException(xeption);
+
+            this.loggingBroker.LogError(userserviceException);
+
+            return userserviceException;
         }
     }
 }

@@ -84,5 +84,41 @@ namespace Market.Api.TestsUnit.services.foundation.user
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Fact]
+        public async Task ShouldThrowUserServixeExceptionOnAddIfAndLogItAsync()
+        {
+            //given
+            Users someUser = CreateRandomUser();
+            var serviceException = new Exception();
+
+            var failedUserException = 
+                new FailedUserException(serviceException);
+
+            var expectedUserServiceException =
+                new UserserviceException(failedUserException);
+
+            this.storageBrokerMock.Setup(broker =>
+            broker.InsertUsersAsync(someUser)) 
+                .ThrowsAsync(serviceException);
+
+            //when
+            ValueTask<Users> addUseTask =
+                this.userService.AddUsersAsync(someUser);
+
+            //then
+            await Assert.ThrowsAsync<UserserviceException> (() => 
+            addUseTask.AsTask());
+
+            this.storageBrokerMock.Verify(broker =>
+            broker.InsertUsersAsync (someUser), Times.Once);
+
+            this.loggingBrokerMock.Verify(broker => 
+            broker.LogError(It.Is(SameExceptionAs(expectedUserServiceException))),
+            Times.Once);
+
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }
