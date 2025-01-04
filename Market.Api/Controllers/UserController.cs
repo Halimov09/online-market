@@ -27,9 +27,9 @@ namespace Market.Api.Controllers
                 Users persistedUser = await this.userService.AddUsersAsync(user);
                 return Created(persistedUser);
             }
-            catch (Exception exception)
+            catch (Exception innerexception)
             {
-                return InternalServerError(exception);
+                return InternalServerError(innerexception);
             }
         }
     }
