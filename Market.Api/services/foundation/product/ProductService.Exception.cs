@@ -42,6 +42,12 @@ namespace Market.Api.services.foundation.product
 
                 throw CreateAndLogValidationDependencyException(alreadyProductException);
             }
+            catch(Exception exception)
+            {
+                var productServiceException = new FailedProductException(exception);
+
+                throw CreateAndLogProductServiceException(productServiceException);
+            }
         }
         private ProductValidationException CreateAndLogValidationException(Xeption xeption)
         {
@@ -71,6 +77,16 @@ namespace Market.Api.services.foundation.product
             this.loggingBroker.LogError(productDependencyValidationException);
 
             return productDependencyValidationException;
+        }
+
+        private ProductServiceException CreateAndLogProductServiceException(Xeption xeption)
+        {
+            var productServiceException =
+                new ProductServiceException(xeption);
+
+            this.loggingBroker.LogError(productServiceException);
+
+            return productServiceException;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Market.Api.TestsUnit.services.foundation.product
             //given
             Product someProduct = CreateRandomProduct();
             SqlException sqlException = GetSqlError();
-            var failedProductException = new FailedProductException(sqlException);
+            var failedProductException = new FailedProductStorageException(sqlException);
 
             var expectedProductException =
                 new ProductDependencyException(failedProductException);
@@ -35,14 +35,14 @@ namespace Market.Api.TestsUnit.services.foundation.product
                 this.productService.AddProductAsync(someProduct);
 
             //then
-            await Assert.ThrowsAsync<ProductDependencyException> (() =>
+            await Assert.ThrowsAsync<ProductDependencyException>(() =>
             addProductTask.AsTask());
 
             this.storageBrokerMock.Verify(broker =>
             broker.InsertProductAsync(someProduct), Times.Once());
 
-            this.loggingBrokerMock.Verify(broker => 
-            broker.LogCritical(It.Is(SameExceptionAs(expectedProductException))), 
+            this.loggingBrokerMock.Verify(broker =>
+            broker.LogCritical(It.Is(SameExceptionAs(expectedProductException))),
             Times.Once());
 
             this.storageBrokerMock.VerifyNoOtherCalls();
@@ -81,6 +81,42 @@ namespace Market.Api.TestsUnit.services.foundation.product
 
             this.loggingBrokerMock.Verify(broker =>
             broker.LogError(It.Is(SameExceptionAs(productDependencyValidationException))),
+            Times.Once);
+
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowProductServixeExceptionOnAddIfAndLogItAsync()
+        {
+            //given
+            Product someProduct = CreateRandomProduct();
+            var serviceException = new Exception();
+
+            var failedProductException =
+                new FailedProductException(serviceException);
+
+            var expectedProductServiceException =
+                new ProductServiceException(failedProductException);
+
+            this.storageBrokerMock.Setup(broker =>
+            broker.InsertProductAsync(someProduct))
+                .ThrowsAsync(serviceException);
+
+            //when
+            ValueTask<Product> addProductTask =
+                this.productService.AddProductAsync(someProduct);
+
+            //then
+            await Assert.ThrowsAsync<ProductServiceException>(() =>
+            addProductTask.AsTask());
+
+            this.storageBrokerMock.Verify(broker =>
+            broker.InsertProductAsync(someProduct), Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+            broker.LogError(It.Is(SameExceptionAs(expectedProductServiceException))),
             Times.Once);
 
             this.storageBrokerMock.VerifyNoOtherCalls();

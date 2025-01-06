@@ -10,7 +10,7 @@ namespace Market.Api.Models.Foundation.Product.exception
     public class FailedProductStorageException : Xeption
     {
         public FailedProductStorageException(Exception innerException)
-            : base("Failed user storage error occured, contact support",
+            : base("Failed product storage error occured, contact support",
                  innerException)
         { }
     }
