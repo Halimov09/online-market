@@ -7,11 +7,6 @@ using FluentAssertions;
 using Force.DeepCloner;
 using Market.Api.Models.Foundation.Product;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Market.Api.TestsUnit.services.foundation.product
 {
@@ -26,7 +21,7 @@ namespace Market.Api.TestsUnit.services.foundation.product
             Product returningProduct = inputProduct;
             Product expectedProduct = returningProduct.DeepClone();
 
-            this.storageBrokerMock.Setup(broker => 
+            this.storageBrokerMock.Setup(broker =>
             broker.InsertProductAsync(inputProduct)).ReturnsAsync(returningProduct);
 
             //when 
@@ -36,7 +31,7 @@ namespace Market.Api.TestsUnit.services.foundation.product
             //then
             actualProduct.Should().BeEquivalentTo(expectedProduct);
 
-            this.storageBrokerMock.Verify(broker => 
+            this.storageBrokerMock.Verify(broker =>
             broker.InsertProductAsync(inputProduct), Times.Once());
 
             this.storageBrokerMock.VerifyNoOtherCalls();
