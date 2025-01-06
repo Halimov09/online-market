@@ -3,8 +3,10 @@
 // Free To Use Comfort and Peace
 //==================================================
 
+using EFxceptions.Models.Exceptions;
 using Market.Api.Models.Foundation.Product;
 using Market.Api.Models.Foundation.Product.exception;
+using Market.Api.Models.Foundation.Users.exceptions;
 using Microsoft.Data.SqlClient;
 using Xeptions;
 
@@ -34,6 +36,12 @@ namespace Market.Api.services.foundation.product
 
                 throw CreateAndLogCriticalDependencyException(failedProductException);
             }
+            catch (DuplicateKeyException duplicateKeyException)
+            {
+                var alreadyProductException = new AlreadyExisProductException(duplicateKeyException);
+
+                throw CreateAndLogValidationDependencyException(alreadyProductException);
+            }
         }
         private ProductValidationException CreateAndLogValidationException(Xeption xeption)
         {
@@ -53,6 +61,16 @@ namespace Market.Api.services.foundation.product
             this.loggingBroker.LogCritical(productDependencyException);
 
             return productDependencyException;
+        }
+
+        private ProductDependencyValidationException CreateAndLogValidationDependencyException(Xeption xeption)
+        {
+            var productDependencyValidationException =
+                new ProductDependencyValidationException(xeption);
+
+            this.loggingBroker.LogError(productDependencyValidationException);
+
+            return productDependencyValidationException;
         }
     }
 }

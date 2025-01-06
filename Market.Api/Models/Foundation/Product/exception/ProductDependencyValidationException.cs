@@ -7,11 +7,11 @@ using Xeptions;
 
 namespace Market.Api.Models.Foundation.Product.exception
 {
-    public class ProductDependencyException : Xeption
+    public class ProductDependencyValidationException : Xeption
     {
-        public ProductDependencyException(Xeption innerException)
-            :base("Product dependency error occured, contact support", 
+        public ProductDependencyValidationException(Xeption innerException) 
+            :base(message: "Product dependencyvalidaion error occured, fix the errors and tryagain", 
                  innerException)
-        {}
+        { }
     }
 }

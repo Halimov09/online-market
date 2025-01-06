@@ -7,11 +7,11 @@ using Xeptions;
 
 namespace Market.Api.Models.Foundation.Product.exception
 {
-    public class ProductDependencyException : Xeption
+    public class FailedProductStorageException : Xeption
     {
-        public ProductDependencyException(Xeption innerException)
-            :base("Product dependency error occured, contact support", 
+        public FailedProductStorageException(Exception innerException)
+            : base("Failed user storage error occured, contact support",
                  innerException)
-        {}
+        { }
     }
 }

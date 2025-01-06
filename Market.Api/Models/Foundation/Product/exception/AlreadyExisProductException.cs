@@ -7,11 +7,10 @@ using Xeptions;
 
 namespace Market.Api.Models.Foundation.Product.exception
 {
-    public class ProductDependencyException : Xeption
+    public class AlreadyExisProductException : Xeption
     {
-        public ProductDependencyException(Xeption innerException)
-            :base("Product dependency error occured, contact support", 
-                 innerException)
-        {}
+        public  AlreadyExisProductException(Exception innerException)
+            : base(message: "Product exis error", innerException)
+        { }
     }
 }
