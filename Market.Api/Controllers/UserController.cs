@@ -4,7 +4,9 @@
 //==================================================
 
 using Market.Api.Models.Foundation.Users;
+using Market.Api.Models.Foundation.Users.exceptions;
 using Market.Api.services.foundation.user;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using RESTFulSense.Controllers;
 
@@ -20,16 +22,34 @@ namespace Market.Api.Controllers
             this.userService = userService;
 
         [HttpPost]
-        public async ValueTask<ActionResult<Users>> PostUserAsync(Users user)
+        public async ValueTask<ActionResult<Users>> PostUserAsync(Users users)
         {
             try
             {
-                Users persistedUser = await this.userService.AddUsersAsync(user);
-                return Created(persistedUser);
+                Users postedUser = await this.userService.AddUsersAsync(users);
+
+                return Created(postedUser);
             }
-            catch (Exception innerexception)
+            catch(UserValidationExcption userValidationException)
             {
-                return InternalServerError(innerexception);
+                return BadRequest(userValidationException.InnerException);
+            }
+            catch(UserDependencyValidationException userDependencyException)
+               when(userDependencyException.InnerException is AlreadyExisUserException)
+            {
+                return Conflict(userDependencyException.InnerException);
+            }
+            catch(UserDependencyValidationException userDeendencyValidationException)
+            {
+                return BadRequest(userDeendencyValidationException.InnerException);
+            }
+            catch(UserDependencyException userDependencyException)
+            {
+                return InternalServerError(userDependencyException.InnerException);
+            }
+            catch(UserserviceException userServiceException)
+            {
+                return InternalServerError(userServiceException.InnerException);
             }
         }
     }
