@@ -10,7 +10,7 @@ namespace Market.Api.Models.Foundation.Users.exceptions
     public class AlreadyExisUserException : Xeption
     {
         public AlreadyExisUserException(Exception innerException)
-            :base(message: "User exis error", innerException)
+            :base(message: "User already exis error", innerException)
         {}
     }
 }
