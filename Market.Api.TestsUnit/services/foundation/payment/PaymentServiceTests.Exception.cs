@@ -3,6 +3,7 @@
 // Free To Use Comfort and Peace
 //==================================================
 
+using EFxceptions.Models.Exceptions;
 using Market.Api.Models.Foundation.Payment;
 using Market.Api.Models.Foundation.Payment.exception;
 using Microsoft.Data.SqlClient;
@@ -44,6 +45,43 @@ namespace Market.Api.TestsUnit.services.foundation.payment
 
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowPaymentDependencyValidationExceptionOnAddIfAndLogItAsync()
+        {
+            //given
+            Payment somePayment = CreateRandomPayment();
+            string someMessage = GetRandomString();
+
+            var duplicateKeyException = new DuplicateKeyException(someMessage);
+
+            var alreadyExisPaymentException = 
+                new AlreadyExisPaymentException(duplicateKeyException);
+
+            var paymentDependencyValidationExcepton = 
+                new PaymentDependencyValidationExcepton(alreadyExisPaymentException);
+
+            this.storageBrokerMock.Setup(broker =>
+            broker.InsertPaymentAsync(somePayment)).ThrowsAsync(duplicateKeyException);
+
+            //when
+            ValueTask<Payment> addPaymentTask = 
+                this.paymentService.AddPaymentAsync(somePayment);
+
+            //then
+            await Assert.ThrowsAsync<PaymentDependencyValidationExcepton> (() =>
+            addPaymentTask.AsTask());
+
+            this.storageBrokerMock.Verify(broker =>
+            broker.InsertPaymentAsync(somePayment), Times.Once);
+
+            this.loggingBrokerMock.Verify(broker => 
+            broker.LogError(It.Is(SameExceptionAs(paymentDependencyValidationExcepton))),
+            Times.Once);
+
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
         }
     }
 }

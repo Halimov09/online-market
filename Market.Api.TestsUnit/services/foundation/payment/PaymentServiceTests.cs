@@ -42,6 +42,9 @@ namespace Market.Api.TestsUnit.services.foundation.payment
         private static SqlException GetSqlError() =>
             (SqlException)FormatterServices.GetUninitializedObject(typeof(SqlException));
 
+        private static string GetRandomString() =>
+            new MnemonicString().GetValue();
+
         private static T GetInvalidEnum<T>()
         {
             int randomNumber = GetRandomNumber();
