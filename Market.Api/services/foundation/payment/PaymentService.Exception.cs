@@ -3,8 +3,10 @@
 // Free To Use Comfort and Peace
 //==================================================
 
+using EFxceptions.Models.Exceptions;
 using Market.Api.Models.Foundation.Payment;
 using Market.Api.Models.Foundation.Payment.exception;
+using Market.Api.Models.Foundation.Users.exceptions;
 using Microsoft.Data.SqlClient;
 using Xeptions;
 
@@ -34,6 +36,12 @@ namespace Market.Api.services.foundation.payment
 
                 throw CreateAndLogCriticalDependencyException(failedPaymentStorageException);
             }
+            catch (DuplicateKeyException duplicateKeyException)
+            {
+                var alreadyExisPaymentException = new AlreadyExisPaymentException(duplicateKeyException);
+
+                throw CreateAndLogValidationDependencyException(alreadyExisPaymentException);
+            }
         }
         private PaymentValidationException CreateAndLogValidationException(Xeption xeption)
         {
@@ -53,6 +61,16 @@ namespace Market.Api.services.foundation.payment
             this.loggingBroker.LogCritical(paymentDependencyException);
 
             return paymentDependencyException;
+        }
+
+        private PaymentDependencyValidationExcepton CreateAndLogValidationDependencyException(Xeption xeption)
+        {
+            var paymentDependencyValidationExcepton =
+                new PaymentDependencyValidationExcepton(xeption);
+
+            this.loggingBroker.LogError(paymentDependencyValidationExcepton);
+
+            return paymentDependencyValidationExcepton;
         }
     }
 }
