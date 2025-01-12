@@ -42,6 +42,12 @@ namespace Market.Api.services.foundation.payment
 
                 throw CreateAndLogValidationDependencyException(alreadyExisPaymentException);
             }
+            catch (Exception exception)
+            {
+                var failedPaymentException = new FiledPaymentException(exception);
+
+                throw CreateAndLogFailedServiceException(failedPaymentException);
+            }
         }
         private PaymentValidationException CreateAndLogValidationException(Xeption xeption)
         {
@@ -71,6 +77,16 @@ namespace Market.Api.services.foundation.payment
             this.loggingBroker.LogError(paymentDependencyValidationExcepton);
 
             return paymentDependencyValidationExcepton;
+        }
+
+        private PaymentServiceException CreateAndLogFailedServiceException(Xeption xeption)
+        {
+            var paymentserviceException =
+                new PaymentServiceException(xeption);
+
+            this.loggingBroker.LogError(paymentserviceException);
+
+            return paymentserviceException;
         }
     }
 }

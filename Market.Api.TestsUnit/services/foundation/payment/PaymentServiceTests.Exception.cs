@@ -6,6 +6,8 @@
 using EFxceptions.Models.Exceptions;
 using Market.Api.Models.Foundation.Payment;
 using Market.Api.Models.Foundation.Payment.exception;
+using Market.Api.Models.Foundation.Users.exceptions;
+using Market.Api.Models.Foundation.Users;
 using Microsoft.Data.SqlClient;
 using Moq;
 
@@ -82,6 +84,42 @@ namespace Market.Api.TestsUnit.services.foundation.payment
 
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowPaymentServixeExceptionOnAddIfAndLogItAsync()
+        {
+            //given
+            Payment somePayment = CreateRandomPayment();
+            var serviceException = new Exception();
+
+            var failedPaymentException =
+                new FiledPaymentException(serviceException);
+
+            var expectedPaymentServiceException =
+                new PaymentServiceException(failedPaymentException);
+
+            this.storageBrokerMock.Setup(broker =>
+            broker.InsertPaymentAsync(somePayment))
+                .ThrowsAsync(serviceException);
+
+            //when
+            ValueTask<Payment> addPaymentTask =
+                this.paymentService.AddPaymentAsync(somePayment);
+
+            //then
+            await Assert.ThrowsAsync<PaymentServiceException>(() =>
+            addPaymentTask.AsTask());
+
+            this.storageBrokerMock.Verify(broker =>
+            broker.InsertPaymentAsync(somePayment), Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+            broker.LogError(It.Is(SameExceptionAs(expectedPaymentServiceException))),
+            Times.Once);
+
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
         }
     }
 }
