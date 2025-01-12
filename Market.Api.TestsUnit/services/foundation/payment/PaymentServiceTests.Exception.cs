@@ -93,29 +93,29 @@ namespace Market.Api.TestsUnit.services.foundation.payment
             Payment somePayment = CreateRandomPayment();
             var serviceException = new Exception();
 
-            var failedUserException =
-                new FailedUserException(serviceException);
+            var failedPaymentException =
+                new FiledPaymentException(serviceException);
 
-            var expectedUserServiceException =
-                new UserserviceException(failedUserException);
+            var expectedPaymentServiceException =
+                new PaymentServiceException(failedPaymentException);
 
             this.storageBrokerMock.Setup(broker =>
             broker.InsertPaymentAsync(somePayment))
                 .ThrowsAsync(serviceException);
 
             //when
-            ValueTask<Payment> addUseTask =
+            ValueTask<Payment> addPaymentTask =
                 this.paymentService.AddPaymentAsync(somePayment);
 
             //then
-            await Assert.ThrowsAsync<UserserviceException>(() =>
-            addUseTask.AsTask());
+            await Assert.ThrowsAsync<PaymentServiceException>(() =>
+            addPaymentTask.AsTask());
 
             this.storageBrokerMock.Verify(broker =>
             broker.InsertPaymentAsync(somePayment), Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
-            broker.LogError(It.Is(SameExceptionAs(expectedUserServiceException))),
+            broker.LogError(It.Is(SameExceptionAs(expectedPaymentServiceException))),
             Times.Once);
 
             this.storageBrokerMock.VerifyNoOtherCalls();
