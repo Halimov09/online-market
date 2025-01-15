@@ -10,5 +10,6 @@ namespace Market.Api.services.foundation.product
     public interface IproductService
     {
         ValueTask<Product> AddProductAsync(Product product);
+        ValueTask<Product> DeleteProductByIdAsync(Guid productId);
     }
 }
