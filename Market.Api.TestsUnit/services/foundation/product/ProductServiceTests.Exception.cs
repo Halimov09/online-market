@@ -6,8 +6,6 @@
 using EFxceptions.Models.Exceptions;
 using Market.Api.Models.Foundation.Product;
 using Market.Api.Models.Foundation.Product.exception;
-using Market.Api.Models.Foundation.Users.exceptions;
-using Market.Api.Models.Foundation.Users;
 using Microsoft.Data.SqlClient;
 using Moq;
 

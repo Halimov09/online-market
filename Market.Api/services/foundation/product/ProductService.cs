@@ -28,5 +28,23 @@ namespace Market.Api.services.foundation.product
             ValidateProductOnAdd(product);
             return await this.storageBroker.InsertProductAsync(product);
         });
+
+        public async ValueTask<Product> DeleteProductByIdAsync(Guid productId)
+        {
+            // Mahsulotni id bo‘yicha topamiz
+            Product product = await this.storageBroker.SelectProductByIdAsync(productId);
+
+            // Mahsulot topilmasa, null qaytaramiz yoki maxsus xatolik tashlashimiz mumkin
+            if (product == null)
+            {
+                // Agar xatolikni tashlamoqchi bo'lsangiz, maxsus exception yaratishingiz mumkin
+                // throw new ProductNotFoundException($"Product with id {productId} not found.");
+
+                return null; // yoki mos xatolik qaytarish
+            }
+
+            // Mahsulotni o‘chirib, uni qaytaramiz
+            return await this.storageBroker.DeleteProductAsync(product);
+        }
     }
 }

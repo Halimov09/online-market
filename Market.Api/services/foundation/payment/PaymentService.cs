@@ -6,7 +6,6 @@
 using Market.Api.Brokers.Loggings;
 using Market.Api.Brokers.Storages;
 using Market.Api.Models.Foundation.Payment;
-using Market.Api.Models.Foundation.Product;
 
 namespace Market.Api.services.foundation.payment
 {
