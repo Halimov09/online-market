@@ -19,6 +19,7 @@ namespace Market.Api.TestsUnit.services.foundation.product
             //given
             Product someProduct = CreateRandomProduct();
             SqlException sqlException = GetSqlError();
+
             var failedProductException = new FailedProductStorageException(sqlException);
 
             var expectedProductException =

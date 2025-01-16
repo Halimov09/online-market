@@ -7,10 +7,10 @@ using Xeptions;
 
 namespace Market.Api.Models.Foundation.Product.exception
 {
-    public class InvalidProductException : Xeption
+    public class ProductNotFoundException : Xeption
     {
-        public InvalidProductException()
-            :base(message: "Invalid product data, Please fix the errors and try again")
-        { }
+        public ProductNotFoundException()
+            :base(message: "Product not Found")
+        {}
     }
 }
