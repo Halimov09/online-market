@@ -38,7 +38,7 @@ namespace Market.Api.TestsUnit.services.foundation.product
                 deleteProductTask.AsTask());
 
             this.storageBrokerMock.Verify(broker =>
-                broker.DeleteProductAsync(), Times.Once());
+                broker.SelectProductByIdAsync(guid), Times.Once());
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogCritical(It.Is(SameExceptionAs(expectedProductException))),
