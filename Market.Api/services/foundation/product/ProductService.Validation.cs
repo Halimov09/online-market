@@ -5,9 +5,6 @@
 
 using Market.Api.Models.Foundation.Product;
 using Market.Api.Models.Foundation.Product.exception;
-using Market.Api.Models.Foundation.Users;
-using System.Data;
-using System.Reflection.Metadata;
 
 namespace Market.Api.services.foundation.product
 {
@@ -23,6 +20,14 @@ namespace Market.Api.services.foundation.product
                 (Rule: IsInvalid(product.Price), Parameter: nameof(Product.Price))
                 );
         }
+
+        private void ValidateProductIdDelete(Guid productId)
+        {
+            Validate(
+                (Rule: IsInvalid(productId), Parameter: nameof(Product.Id))
+            );
+        }
+
 
         private void ValidateProductNotNull(Product product)
         {
