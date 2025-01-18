@@ -41,7 +41,7 @@ namespace Market.Api.services.foundation.product
             // Mahsulot topilmasa, xatolik tashlaymiz
             if (product == null)
             {
-                throw new ProductNotFoundException();
+                throw new NotFoundProductException(productId);
             }
 
             // Mahsulotni o‘chirib, uni qaytaramiz

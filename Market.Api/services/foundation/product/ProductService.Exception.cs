@@ -30,6 +30,7 @@ namespace Market.Api.services.foundation.product
             {
                 throw CreateAndLogValidationException(invalidProductException);
             }
+            
             catch (SqlException sqlException)
             {
                 var failedProductException = new FailedProductException(sqlException);

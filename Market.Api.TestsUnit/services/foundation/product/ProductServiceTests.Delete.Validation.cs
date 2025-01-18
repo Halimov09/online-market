@@ -50,5 +50,44 @@ namespace Market.Api.TestsUnit.services.foundation.product
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Fact]
+        public async Task ShouldThrowNotFoundExceptionOnRemoveProductByIdIsNotFoundAndLogItAsync()
+        {
+            // given
+            Guid inputProductId = Guid.NewGuid();
+            Product noProduct = null;
+
+            var notFoundProductException =
+                new NotFoundProductException(inputProductId);
+
+            var expectedProductValidationException =
+                new ProductValidationException(notFoundProductException);
+
+            this.storageBrokerMock.Setup(broker =>
+                broker.SelectProductByIdAsync(It.IsAny<Guid>()))
+                .ReturnsAsync(noProduct);
+
+            // when
+            ValueTask<Product> removeProductById =
+                this.productService.DeleteProductByIdAsync(inputProductId);
+
+            var actualProductValidationException =
+                await Assert.ThrowsAsync<ProductValidationException>(
+                    removeProductById.AsTask);
+
+            // then
+            actualProductValidationException.Should().BeEquivalentTo(expectedProductValidationException);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.SelectProductByIdAsync(It.IsAny<Guid>()), Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedProductValidationException))), Times.Once);
+
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }
