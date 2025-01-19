@@ -3,6 +3,7 @@
 // Free To Use Comfort and Peace
 //==================================================
 
+using Market.Api.Models.Foundation.Product;
 using Market.Api.Models.Foundation.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -22,6 +23,25 @@ namespace Market.Api.Brokers.Storages
             await broker.SaveChangesAsync();
 
             return userEntityEntry.Entity;
+        }
+
+        public async ValueTask<Users> SelectUsersByIdAsync(Guid userId)
+        {
+            using var broker = new StorageBroker(this.configuration);
+
+            return await broker.Users.FindAsync(userId);
+        }
+
+        public async ValueTask<Users> DeleteUserstAsync(Users users)
+        {
+            using var broker = new StorageBroker(this.configuration);
+
+            EntityEntry<Users> productEntityEntry =
+                broker.Users.Remove(users);
+
+            await broker.SaveChangesAsync();
+
+            return productEntityEntry.Entity;
         }
     }
 }
