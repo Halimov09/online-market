@@ -5,7 +5,10 @@
 
 using Market.Api.Brokers.Loggings;
 using Market.Api.Brokers.Storages;
+using Market.Api.Models.Foundation.Product.exception;
+using Market.Api.Models.Foundation.Product;
 using Market.Api.Models.Foundation.Users;
+using Market.Api.Models.Foundation.Users.exceptions;
 
 namespace Market.Api.services.foundation.user
 {
@@ -27,6 +30,24 @@ namespace Market.Api.services.foundation.user
         {
             ValidateUserOnAdd(users);
             return await this.storageBroker.InsertUsersAsync(users);
+        });
+
+        public ValueTask<Users> DeleteUserByIdAsync(Guid usersId) =>
+        TryCatch(async () =>
+        {
+            ValidateUserIdDelete(usersId);
+
+            // Mahsulotni id bo‘yicha topamiz
+            Users users = await this.storageBroker.SelectUserByIdAsync(usersId);
+
+            // Mahsulot topilmasa, xatolik tashlaymiz
+            if (users == null)
+            {
+                throw new NotFoundUserException(usersId);
+            }
+
+            // Mahsulotni o‘chirib, uni qaytaramiz
+            return await this.storageBroker.DeleteUsersAsync(users);
         });
     }
 }

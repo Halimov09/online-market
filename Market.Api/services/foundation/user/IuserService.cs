@@ -10,5 +10,6 @@ namespace Market.Api.services.foundation.user
     public interface IuserService
     {
         ValueTask<Users> AddUsersAsync(Users users);
+        ValueTask<Users> DeleteUserByIdAsync(Guid usersId);
     }
 }

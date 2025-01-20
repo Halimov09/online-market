@@ -3,6 +3,7 @@
 // Free To Use Comfort and Peace
 //==================================================
 
+using Market.Api.Models.Foundation.Product;
 using Market.Api.Models.Foundation.Users;
 using Market.Api.Models.Foundation.Users.exceptions;
 
@@ -28,6 +29,13 @@ namespace Market.Api.services.foundation.user
             {
                 throw new NullUserException();
             }
+        }
+
+        private void ValidateUserIdDelete(Guid usersId)
+        {
+            Validate(
+                (Rule: IsInvalid(usersId), Parameter: nameof(Users.Id))
+            );
         }
 
         private static dynamic IsInvalid(Guid id) => new

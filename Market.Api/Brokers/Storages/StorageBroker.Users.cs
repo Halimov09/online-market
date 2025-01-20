@@ -25,14 +25,14 @@ namespace Market.Api.Brokers.Storages
             return userEntityEntry.Entity;
         }
 
-        public async ValueTask<Users> SelectUsersByIdAsync(Guid userId)
+        public async ValueTask<Users> SelectUserByIdAsync(Guid userId)
         {
             using var broker = new StorageBroker(this.configuration);
 
             return await broker.Users.FindAsync(userId);
         }
 
-        public async ValueTask<Users> DeleteUserstAsync(Users users)
+        public async ValueTask<Users> DeleteUsersAsync(Users users)
         {
             using var broker = new StorageBroker(this.configuration);
 

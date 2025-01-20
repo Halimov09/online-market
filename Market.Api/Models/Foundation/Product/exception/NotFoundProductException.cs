@@ -10,7 +10,7 @@ namespace Market.Api.Models.Foundation.Product.exception
     public class NotFoundProductException : Xeption
     {
         public NotFoundProductException(Guid productId)
-            :base(message: $"Couldn't find client with id {productId}.")
+            :base(message: $"Couldn't find product with id {productId}.")
         {}
     }
 }
