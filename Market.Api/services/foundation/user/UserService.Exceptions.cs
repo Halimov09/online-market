@@ -29,6 +29,10 @@ namespace Market.Api.services.foundation.user
             {
                 throw CreateAndLogValidationException(invalidUserException);
             }
+            catch (NotFoundUserException notFoundUserException)
+            {
+                throw CreateAndLogValidationException(notFoundUserException);
+            }
             catch (SqlException sqlExcepion)
             {
                 var failedUserStorageException = new FailedUserStorageException(sqlExcepion);
