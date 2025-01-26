@@ -52,5 +52,33 @@ namespace Market.Api.Controllers
                 return InternalServerError(userServiceException.InnerException);
             }
         }
+
+        [HttpDelete]
+        public async ValueTask<ActionResult<Users>> DeleteUserByIdAsync(Guid id)
+        {
+            try
+            {
+                Users deletedUser = await this.userService.DeleteUserByIdAsync(id);
+
+                return Ok(deletedUser);
+            }
+            catch (UserValidationExcption userValidationExcption)
+                when (userValidationExcption.InnerException is NotFoundUserException)
+            {
+                return NotFound(userValidationExcption.InnerException);
+            }
+            catch (UserValidationExcption userValidationExcption)
+            {
+                return BadRequest(userValidationExcption.InnerException);
+            }
+            catch (UserDependencyValidationException userDependencyValidationException)
+            {
+                return BadRequest(userDependencyValidationException.InnerException);
+            }
+            catch (UserDependencyException userDependencyException)
+            {
+                return InternalServerError(userDependencyException.InnerException);
+            }
+        }
     }
 }
