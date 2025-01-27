@@ -14,6 +14,7 @@ namespace Market.Api.services.foundation.user
     public partial class UserService
     {
         private delegate ValueTask<Users> ReturningUserExceptions();
+        private delegate IQueryable<Users> ReturningUserFunction();
 
         private async ValueTask<Users> TryCatch(ReturningUserExceptions returningUserExceptions)
         {
@@ -50,6 +51,22 @@ namespace Market.Api.services.foundation.user
                 var failedUserException = new FailedUserException(exception);
 
                 throw CreateAndLogFailedServiceException(failedUserException);
+            }
+        }
+
+        private IQueryable<Users> TryCatch(ReturningUserFunction
+            returningUserFunction)
+        {
+            try
+            {
+                return returningUserFunction();
+            }
+            catch (SqlException sqlException)
+            {
+                var failedUserStorageException =
+                    new FailedUserStorageException(sqlException);
+
+                throw CreateAndLogCriticalDependencyException(failedUserStorageException);
             }
         }
 

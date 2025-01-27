@@ -13,5 +13,6 @@ namespace Market.Api.Brokers.Storages
         ValueTask<Users> InsertUsersAsync(Users user);
         ValueTask<Users> SelectUserByIdAsync(Guid usertId);
         ValueTask<Users> DeleteUsersAsync(Users users);
+        IQueryable<Users> SelectAllUsers();
     }
 }

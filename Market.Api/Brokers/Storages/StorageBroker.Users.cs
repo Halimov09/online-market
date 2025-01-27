@@ -43,5 +43,8 @@ namespace Market.Api.Brokers.Storages
 
             return productEntityEntry.Entity;
         }
+
+        public IQueryable<Users> SelectAllUsers() =>
+            SelectAll<Users>();
     }
 }
