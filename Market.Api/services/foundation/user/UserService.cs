@@ -50,8 +50,7 @@ namespace Market.Api.services.foundation.user
 
         public IQueryable<Users> RetrieveAllUsers()
         {
-            return TryCatch(() => this.storageBroker.SelectAllUsersele
-            ());
+            return TryCatch(() => this.storageBroker.SelectAllUsers());
         }
     }
 }
