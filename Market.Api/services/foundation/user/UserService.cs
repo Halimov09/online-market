@@ -5,8 +5,6 @@
 
 using Market.Api.Brokers.Loggings;
 using Market.Api.Brokers.Storages;
-using Market.Api.Models.Foundation.Product.exception;
-using Market.Api.Models.Foundation.Product;
 using Market.Api.Models.Foundation.Users;
 using Market.Api.Models.Foundation.Users.exceptions;
 
@@ -49,5 +47,10 @@ namespace Market.Api.services.foundation.user
             // Mahsulotni o‘chirib, uni qaytaramiz
             return await this.storageBroker.DeleteUsersAsync(users);
         });
+
+        public IQueryable<Users> RetrieveAllUsers()
+        {
+            return TryCatch(() => this.storageBroker.SelectAllUsers());
+        }
     }
 }

@@ -80,5 +80,24 @@ namespace Market.Api.Controllers
                 return InternalServerError(userDependencyException.InnerException);
             }
         }
+
+        [HttpGet]
+        public ActionResult<IQueryable<Users>> GetAllGuests()
+        {
+            try
+            {
+                IQueryable<Users> allUsers = this.userService.RetrieveAllUsers();
+
+                return Ok(allUsers);
+            }
+            catch (UserDependencyException locationDependencyException)
+            {
+                return InternalServerError(locationDependencyException.InnerException);
+            }
+            catch (UserserviceException locationServiceException)
+            {
+                return InternalServerError(locationServiceException.InnerException);
+            }
+        }
     }
 }

@@ -26,6 +26,13 @@ namespace Market.Api.Brokers.Storages
             optionsBuilder.UseSqlServer(connectionString);
         }
 
+        public IQueryable<T> SelectAll<T>() where T : class
+        {
+            var broker = new StorageBroker(configuration);
+
+            return broker.Set<T>();
+        }
+
         public override void Dispose() {}
     }
 }

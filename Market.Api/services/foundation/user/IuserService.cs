@@ -11,5 +11,6 @@ namespace Market.Api.services.foundation.user
     {
         ValueTask<Users> AddUsersAsync(Users users);
         ValueTask<Users> DeleteUserByIdAsync(Guid usersId);
+        IQueryable<Users> RetrieveAllUsers();
     }
 }
