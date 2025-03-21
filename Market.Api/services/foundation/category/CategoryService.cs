@@ -5,7 +5,7 @@
 
 using Market.Api.Brokers.Loggings;
 using Market.Api.Brokers.Storages;
-using Market.Api.Models.Foundation.Category;
+using Market.Api.Models.Foundation.Categorys;
 
 namespace Market.Api.services.foundation.category
 {

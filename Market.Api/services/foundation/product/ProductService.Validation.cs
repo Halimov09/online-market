@@ -10,26 +10,26 @@ namespace Market.Api.services.foundation.product
 {
     public partial class ProductService
     {
-        private void ValidateProductOnAdd(Product product)
+        private void ValidateProductOnAdd(Products product)
         {
             ValidateProductNotNull(product);
 
             Validate(
-                (Rule: IsInvalid(product.Id), Parameter: nameof(Product.Id)),
-                (Rule: IsInvalid(product.Name), Parameter: nameof(Product.Name)),
-                (Rule: IsInvalid(product.Price), Parameter: nameof(Product.Price))
+                (Rule: IsInvalid(product.Id), Parameter: nameof(Products.Id)),
+                (Rule: IsInvalid(product.Name), Parameter: nameof(Products.Name)),
+                (Rule: IsInvalid(product.Price), Parameter: nameof(Products.Price))
                 );
         }
 
         private void ValidateProductIdDelete(Guid productId)
         {
             Validate(
-                (Rule: IsInvalid(productId), Parameter: nameof(Product.Id))
+                (Rule: IsInvalid(productId), Parameter: nameof(Products.Id))
             );
         }
 
 
-        private void ValidateProductNotNull(Product product)
+        private void ValidateProductNotNull(Products product)
         {
             if (product is null)
             {

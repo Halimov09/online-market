@@ -11,13 +11,13 @@ namespace Market.Api.Brokers.Storages
 {
     public partial class StorageBroker
     {
-        public DbSet<Product> products { get; set; }
+        public DbSet<Products> products { get; set; }
 
-        public async ValueTask<Product> InsertProductAsync(Product product)
+        public async ValueTask<Products> InsertProductAsync(Products product)
         {
             using var broker = new StorageBroker(this.configuration);
 
-            EntityEntry<Product> productEntityEntry =
+            EntityEntry<Products> productEntityEntry =
                 await broker.products.AddAsync(product);
 
             await broker.SaveChangesAsync();
@@ -25,18 +25,18 @@ namespace Market.Api.Brokers.Storages
             return productEntityEntry.Entity;
         }
 
-        public async ValueTask<Product> SelectProductByIdAsync(Guid productId)
+        public async ValueTask<Products> SelectProductByIdAsync(Guid productId)
         {
             using var broker = new StorageBroker(this.configuration);
 
             return await broker.products.FindAsync(productId);
         }
 
-        public async ValueTask<Product> DeleteProductAsync(Product product)
+        public async ValueTask<Products> DeleteProductAsync(Products product)
         {
             using var broker = new StorageBroker(this.configuration);
 
-            EntityEntry<Product> productEntityEntry =
+            EntityEntry<Products> productEntityEntry =
                 broker.products.Remove(product);
 
             await broker.SaveChangesAsync();

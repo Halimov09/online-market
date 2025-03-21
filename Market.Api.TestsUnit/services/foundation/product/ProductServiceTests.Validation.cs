@@ -16,14 +16,14 @@ namespace Market.Api.TestsUnit.services.foundation.product
         public async Task ShouldThrowExceptionOnAddIfProductIsNullAndLogitAsync()
         {
             //given
-            Product nullProduct = null;
+            Products nullProduct = null;
             var nullProductException = new NullProductException();
 
             var expectedProductException =
                 new ProductValidationException(nullProductException);
 
             //when
-            ValueTask<Product> AddProductTask =
+            ValueTask<Products> AddProductTask =
                 this.productService.AddProductAsync(nullProduct);
 
             //then
@@ -35,7 +35,7 @@ namespace Market.Api.TestsUnit.services.foundation.product
             Times.Once);
 
             this.storageBrokerMock.Verify(broker =>
-            broker.InsertProductAsync(It.IsAny<Product>()),
+            broker.InsertProductAsync(It.IsAny<Products>()),
             Times.Never);
 
             this.storageBrokerMock.VerifyNoOtherCalls();
@@ -50,7 +50,7 @@ namespace Market.Api.TestsUnit.services.foundation.product
             string invalidtext)
         {
             //given
-            var productInvalid = new Product
+            var productInvalid = new Products
             {
                 Name = invalidtext,
             };
@@ -58,26 +58,26 @@ namespace Market.Api.TestsUnit.services.foundation.product
             var invalidProductException = new InvalidProductException();
 
             invalidProductException.AddData(
-                key: nameof(Product.Id),
+                key: nameof(Products.Id),
                 values: "Id is required");
 
             invalidProductException.AddData(
-                key: nameof(Product.CategoryId),
+                key: nameof(Products.CategoryId),
                 values: "CategoryId is required");
 
             invalidProductException.AddData(
-                key: nameof(Product.Name),
+                key: nameof(Products.Name),
                 values: "Text is required");
 
             invalidProductException.AddData(
-                key: nameof(Product.Price),
+                key: nameof(Products.Price),
                 values: "Price is required");
 
             var expectedProductException =
                 new ProductValidationException(invalidProductException);
 
             //when
-            ValueTask<Product> addProductTask =
+            ValueTask<Products> addProductTask =
                 this.productService.AddProductAsync(productInvalid);
 
             //then
@@ -89,7 +89,7 @@ namespace Market.Api.TestsUnit.services.foundation.product
             Times.Once());
 
             this.storageBrokerMock.Verify(broker =>
-            broker.InsertProductAsync(It.IsAny<Product>()), Times.Never);
+            broker.InsertProductAsync(It.IsAny<Products>()), Times.Never);
 
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();

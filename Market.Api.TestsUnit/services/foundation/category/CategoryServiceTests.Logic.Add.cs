@@ -5,7 +5,7 @@
 
 using FluentAssertions;
 using Force.DeepCloner;
-using Market.Api.Models.Foundation.Category;
+using Market.Api.Models.Foundation.Categorys;
 using Moq;
 
 namespace Market.Api.TestsUnit.services.foundation.category

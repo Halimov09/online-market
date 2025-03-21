@@ -34,7 +34,7 @@ namespace Market.Api.TestsUnit.services.foundation.product
                 loggingBroker: this.loggingBrokerMock.Object);
         }
 
-        private static Product CreateRandomProduct() =>
+        private static Products CreateRandomProduct() =>
              CreateProductFiller().Create();
 
         private static SqlException GetSqlError() =>
@@ -51,6 +51,6 @@ namespace Market.Api.TestsUnit.services.foundation.product
             expectedException.InnerException.Message;
         }
 
-        private static Filler<Product> CreateProductFiller() => new Filler<Product>();
+        private static Filler<Products> CreateProductFiller() => new Filler<Products>();
     }
 }

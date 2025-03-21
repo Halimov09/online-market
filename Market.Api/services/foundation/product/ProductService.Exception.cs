@@ -14,9 +14,9 @@ namespace Market.Api.services.foundation.product
 {
     public partial class ProductService
     {
-        private delegate ValueTask<Product> ReturningProductExceptions();
+        private delegate ValueTask<Products> ReturningProductExceptions();
 
-        private async ValueTask<Product> TryCatch(ReturningProductExceptions returningProductExceptions)
+        private async ValueTask<Products> TryCatch(ReturningProductExceptions returningProductExceptions)
         {
             try
             {
