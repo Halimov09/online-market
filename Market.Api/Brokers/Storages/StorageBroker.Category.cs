@@ -3,7 +3,7 @@
 // Free To Use Comfort and Peace
 //==================================================
 
-using Market.Api.Models.Foundation.Category;
+using Market.Api.Models.Foundation.Categorys;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 

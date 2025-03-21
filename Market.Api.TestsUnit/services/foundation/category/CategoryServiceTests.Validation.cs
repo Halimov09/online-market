@@ -3,8 +3,8 @@
 // Free To Use Comfort and Peace
 //==================================================
 
-using Market.Api.Models.Foundation.Category;
-using Market.Api.Models.Foundation.Category.exception;
+using Market.Api.Models.Foundation.Categorys;
+using Market.Api.Models.Foundation.Categorys.exception;
 using Moq;
 
 namespace Market.Api.TestsUnit.services.foundation.category

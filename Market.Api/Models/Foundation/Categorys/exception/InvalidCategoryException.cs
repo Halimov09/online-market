@@ -5,7 +5,7 @@
 
 using Xeptions;
 
-namespace Market.Api.Models.Foundation.Category.exception
+namespace Market.Api.Models.Foundation.Categorys.exception
 {
     public class InvalidCategoryException : Xeption
     {

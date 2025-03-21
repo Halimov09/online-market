@@ -17,7 +17,7 @@ namespace Market.Api.TestsUnit.services.foundation.product
         public async Task ShouldThrowCriticalDependencyExceptionProductOnAddIfLogItAsync()
         {
             //given
-            Product someProduct = CreateRandomProduct();
+            Products someProduct = CreateRandomProduct();
             SqlException sqlException = GetSqlError();
 
             var failedProductException = new FailedProductStorageException(sqlException);
@@ -30,7 +30,7 @@ namespace Market.Api.TestsUnit.services.foundation.product
                 .ThrowsAsync(sqlException);
 
             //when
-            ValueTask<Product> addProductTask =
+            ValueTask<Products> addProductTask =
                 this.productService.AddProductAsync(someProduct);
 
             //then
@@ -52,7 +52,7 @@ namespace Market.Api.TestsUnit.services.foundation.product
         public async Task ShouldThrowProductDependencyValidationExceptionOnAddIfAndLogItAsync()
         {
             //given
-            Product someProduct = CreateRandomProduct();
+            Products someProduct = CreateRandomProduct();
             string someMessage = GetRandomString();
 
             var duplicateKeyException =
@@ -68,7 +68,7 @@ namespace Market.Api.TestsUnit.services.foundation.product
             broker.InsertProductAsync(someProduct)).ThrowsAsync(duplicateKeyException);
 
             //when
-            ValueTask<Product> addProductTask =
+            ValueTask<Products> addProductTask =
                 this.productService.AddProductAsync(someProduct);
 
             //then
@@ -90,7 +90,7 @@ namespace Market.Api.TestsUnit.services.foundation.product
         public async Task ShouldThrowProductServixeExceptionOnAddIfAndLogItAsync()
         {
             //given
-            Product someProduct = CreateRandomProduct();
+            Products someProduct = CreateRandomProduct();
             var serviceException = new Exception();
 
             var failedProductException =
@@ -104,7 +104,7 @@ namespace Market.Api.TestsUnit.services.foundation.product
                 .ThrowsAsync(serviceException);
 
             //when
-            ValueTask<Product> addProductTask =
+            ValueTask<Products> addProductTask =
                 this.productService.AddProductAsync(someProduct);
 
             //then

@@ -16,16 +16,16 @@ namespace Market.Api.TestsUnit.services.foundation.product
         public async Task ShouldAddProductAsync()
         {
             //given
-            Product randomProduct = CreateRandomProduct();
-            Product inputProduct = randomProduct;
-            Product returningProduct = inputProduct;
-            Product expectedProduct = returningProduct.DeepClone();
+            Products randomProduct = CreateRandomProduct();
+            Products inputProduct = randomProduct;
+            Products returningProduct = inputProduct;
+            Products expectedProduct = returningProduct.DeepClone();
 
             this.storageBrokerMock.Setup(broker =>
             broker.InsertProductAsync(inputProduct)).ReturnsAsync(returningProduct);
 
             //when 
-            Product actualProduct =
+            Products actualProduct =
                 await this.productService.AddProductAsync(inputProduct);
 
             //then

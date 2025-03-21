@@ -23,20 +23,20 @@ namespace Market.Api.services.foundation.product
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<Product> AddProductAsync(Product product) =>
+        public ValueTask<Products> AddProductAsync(Products product) =>
         TryCatch(async () =>
         {
             ValidateProductOnAdd(product);
             return await this.storageBroker.InsertProductAsync(product);
         });
 
-        public ValueTask<Product> DeleteProductByIdAsync(Guid productId) =>
+        public ValueTask<Products> DeleteProductByIdAsync(Guid productId) =>
         TryCatch(async () =>
         {
             ValidateProductIdDelete(productId);
 
             // Mahsulotni id bo‘yicha topamiz
-            Product product = await this.storageBroker.SelectProductByIdAsync(productId);
+            Products product = await this.storageBroker.SelectProductByIdAsync(productId);
 
             // Mahsulot topilmasa, xatolik tashlaymiz
             if (product == null)

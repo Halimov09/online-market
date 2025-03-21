@@ -23,14 +23,14 @@ namespace Market.Api.TestsUnit.services.foundation.product
                 new InvalidProductException();
 
             invalidProductException.AddData(
-                key: nameof(Product.Id),
+                key: nameof(Products.Id),
                 values: "Id is required");
 
             var expectedValidationException =
                 new ProductValidationException(invalidProductException);
 
             //when
-            ValueTask<Product> removeProductById =
+            ValueTask<Products> removeProductById =
                 this.productService.DeleteProductByIdAsync(invalidProductId);
 
             ProductValidationException actualCompanyValidationExecption =
@@ -45,7 +45,7 @@ namespace Market.Api.TestsUnit.services.foundation.product
                     expectedValidationException))), Times.Once);
 
             this.storageBrokerMock.Verify(broker =>
-                broker.DeleteProductAsync(It.IsAny<Product>()), Times.Never);
+                broker.DeleteProductAsync(It.IsAny<Products>()), Times.Never);
 
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
@@ -56,7 +56,7 @@ namespace Market.Api.TestsUnit.services.foundation.product
         {
             // given
             Guid inputProductId = Guid.NewGuid();
-            Product noProduct = null;
+            Products noProduct = null;
 
             var notFoundProductException =
                 new NotFoundProductException(inputProductId);
@@ -69,7 +69,7 @@ namespace Market.Api.TestsUnit.services.foundation.product
                 .ReturnsAsync(noProduct);
 
             // when
-            ValueTask<Product> removeProductById =
+            ValueTask<Products> removeProductById =
                 this.productService.DeleteProductByIdAsync(inputProductId);
 
             var actualProductValidationException =

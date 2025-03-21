@@ -30,7 +30,7 @@ namespace Market.Api.TestsUnit.services.foundation.product
                 .Throws(sqlException);
 
             // when
-            ValueTask<Product> deleteProductTask =
+            ValueTask<Products> deleteProductTask =
                 this.productService.DeleteProductByIdAsync(guid);
 
             // then

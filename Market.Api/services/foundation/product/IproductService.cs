@@ -9,7 +9,7 @@ namespace Market.Api.services.foundation.product
 {
     public interface IproductService
     {
-        ValueTask<Product> AddProductAsync(Product product);
-        ValueTask<Product> DeleteProductByIdAsync(Guid productId);
+        ValueTask<Products> AddProductAsync(Products product);
+        ValueTask<Products> DeleteProductByIdAsync(Guid productId);
     }
 }

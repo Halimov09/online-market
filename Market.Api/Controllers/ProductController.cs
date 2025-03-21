@@ -21,11 +21,11 @@ namespace Market.Api.Controllers
             this.productService = iproductService;
 
         [HttpPost]
-        public async ValueTask<ActionResult<Product>> PostProduct(Product product)
+        public async ValueTask<ActionResult<Products>> PostProduct(Products product)
         {
             try
             {
-                Product postedproduct = await this.productService.AddProductAsync(product);
+                Products postedproduct = await this.productService.AddProductAsync(product);
 
                 return Created(postedproduct);
             }

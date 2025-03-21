@@ -3,15 +3,16 @@
 // Free To Use Comfort and Peace
 //==================================================
 
-namespace Market.Api.Models.Foundation.Product
+using Market.Api.Models.Foundation.Product;
+
+namespace Market.Api.Models.Foundation.Categorys
 {
-    public class Product
+    public class Category
     {
-        //About product
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
-        public decimal Price { get; set; }
-        public Guid CategoryId { get; set; }
+
+        public Guid productId { get; set; }
+        public Products Product { get; set; }
     }
 }

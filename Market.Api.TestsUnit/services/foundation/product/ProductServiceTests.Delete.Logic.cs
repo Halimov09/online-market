@@ -17,7 +17,7 @@ namespace Market.Api.TestsUnit.services.foundation.product
             // given
             Guid randomProductId = Guid.NewGuid();
             Guid inputProductId = randomProductId;
-            Product storageProduct = CreateRandomProduct();
+            Products storageProduct = CreateRandomProduct();
             storageProduct.Id = inputProductId;
 
             this.storageBrokerMock.Setup(broker =>
@@ -29,7 +29,7 @@ namespace Market.Api.TestsUnit.services.foundation.product
                     .ReturnsAsync(storageProduct);
 
             // when
-            Product actualProduct =
+            Products actualProduct =
                 await this.productService.DeleteProductByIdAsync(inputProductId);
 
             // then

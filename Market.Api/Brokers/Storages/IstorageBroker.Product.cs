@@ -9,8 +9,8 @@ namespace Market.Api.Brokers.Storages
 {
     public partial interface IstorageBroker
     {
-        ValueTask<Product> InsertProductAsync(Product product);
-        ValueTask<Product> SelectProductByIdAsync(Guid productId);
-        ValueTask<Product> DeleteProductAsync(Product product);
+        ValueTask<Products> InsertProductAsync(Products product);
+        ValueTask<Products> SelectProductByIdAsync(Guid productId);
+        ValueTask<Products> DeleteProductAsync(Products product);
     }
 }
